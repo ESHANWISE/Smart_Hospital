@@ -1,0 +1,260 @@
+address = StringField("Enter message here",validators=[DataRequired(message="First Address cannot be empty")])
+    mStatus = RadioField("Single", validators=[DataRequired(message="Please select One Option")])
+    mStatus = BooleanField("Married", validators=[DataRequired(message="Please select One Option")])
+    mStatus = BooleanField("Divorced", validators=[DataRequired(message="Please select One Option")])
+    country = SelectField("Country",choices=[("Select Your Country",""),{"America","america"},("Nigeria","nig")])
+    state = SelectField("State",choices=[("Select Your State",""),{"america","America"},("Niger","Nigeria")])
+    city = SelectField("City",choices=[("Select Your City",""),{"america","America"},("Ngn","Nigeria")])
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% extends 'userdash/patientsdashboard.html'%}
+
+
+{% block content %}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-8 d-flex">
+           <div class="row">
+                <div class="col-md-6">
+                    <img src="/static/images/atm.webp" alt="" width="350" height="200">
+                </div>
+                <div class="col-md-3">
+                    <img src="/static/images/px.webp" alt="" class="center">
+                    <h4>Paypal</h4>
+                    <p>Payment Option</p>
+                    <hr>
+                    <h4>$2000</h4>
+                </div>
+                <div class="col-md-3">
+                    <img src="/static/images/px.webp" alt="" class="center">
+                    <h4>Balance</h4>
+                    <p>Available balance</p>
+                    <hr>
+                    <h4>$2000</h4>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md">
+                    <div class="">
+                        <h3>Payment</h3>
+                        <img src="" alt="">
+                    </div>
+                    <div class="col-md-6">
+                        <img src="/static/images/mastercard.png" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 bg-light">
+
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-md-4 d-flex">
+            <!-- <div class="col-md"> -->
+                <div class="col-md-3 m-3">
+                    <button class="btn btn-danger">Composing</button>
+                </div>
+                <div class="col-md-7 m-3">
+                    <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
+                        <option selected>All messages</option>
+                        <option value="1">Read</option>
+                        <option value="2">Unread</option>
+                        <option value="3">Important</option>
+                    </select>
+                </div>
+            <!-- </div> -->
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-md-4">
+            <input type="text" name="" placeholder="Search" class="form-control"><span><i class="fa-solid fa-magnifying-glass"></i></span>
+        </div>
+    </div>
+    
+</div>
+
+{%endblock%}
+
+<!-- appointment -->
+
+<div class="container-fluid bg-light">
+    <div class="row m-3 justify-content-center text-center">
+         <div class="col-md-3 m-2">
+             <a href=""><img src="/static/images/app1.jpg" alt="" >
+             <h2>Online</h2></a>
+         </div>
+         <div class="col-md-3 m-2">
+             <a href=""><img src="/static/images/a.png" alt="" >
+             <h2>Web Chat</h2></a>
+         </div>
+         <div class="col-md-3 m-2">
+             <a href=""><img src="/static/images/app3.png" alt="" >
+             <h2>In Person</h2></a>
+         </div>
+    </div>
+ </div>
+
+
+
+ # @app.route('/admin', methods =["POST","GET"])
+#     f = CreateAccount()
+#     if request.method == "GET":
+#         return render_template("user/admin.html","user/pat.html","user/personnelLogin.html", f=f)
+#     else:
+#         if f.validate_on_submit():
+#             fname = request.form.get("fname")
+#             lname = request.form.get("lname")
+#             email = request.form.get("email")
+#             pwd = request.form.get("pwd")
+#             cpwd = request.form.get("cpwd")
+#             phn = request.form.get("phn")
+#             Dob = request.form.get("Dob")
+#             address = request.form.get("address")
+#             marital = request.form.get("mStatus")
+#             country = request.form.get("country")
+#             state = request.form.get("state")
+#             city =request.form.get("city")
+            
+#             with open("login.txt","a") as l:
+#                 log = f"{fname} {lname} {email} {pwd} {cpwd} {phn} {Dob} {address} {marital} {country} {state} {city} \n "
+#                 l.write(log)
+#                 flash(f"you are succesfully logged in {fname} {lname}")
+#             return redirect('/dashboard')
+#         else:
+#             return render_template('user/admin.html',f=f)
+
+
+
+ <!-- backup -->
+ <main>
+    <div class="container-fluid px-4">
+        <h1 class="mt-4">Dashboard</h1>
+        <ol class="breadcrumb mb-4">
+            <li class="breadcrumb-item active">Dashboard</li>
+        </ol>
+        <div class="row">
+            <div class="col-xl-3 col-md-6">
+                <div class="card bg-primary text-white mb-4">
+                    <div class="card-body">Primary Card</div>
+                    <div class="card-footer d-flex align-items-center justify-content-between">
+                        <a class="small text-white stretched-link" href="#">View Details</a>
+                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-md-6">
+                <div class="card bg-warning text-white mb-4">
+                    <div class="card-body">Warning Card</div>
+                    <div class="card-footer d-flex align-items-center justify-content-between">
+                        <a class="small text-white stretched-link" href="#">View Details</a>
+                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-md-6">
+                <div class="card bg-success text-white mb-4">
+                    <div class="card-body">Success Card</div>
+                    <div class="card-footer d-flex align-items-center justify-content-between">
+                        <a class="small text-white stretched-link" href="#">View Details</a>
+                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-md-6">
+                <div class="card bg-danger text-white mb-4">
+                    <div class="card-body">Danger Card</div>
+                    <div class="card-footer d-flex align-items-center justify-content-between">
+                        <a class="small text-white stretched-link" href="#">View Details</a>
+                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xl-6">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <i class="fas fa-chart-area me-1"></i>
+                        Area Chart Example
+                    </div>
+                    <div class="card-body"><canvas id="myAreaChart" width="100%" height="40"></canvas></div>
+                </div>
+            </div>
+            <div class="col-xl-6">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <i class="fas fa-chart-bar me-1"></i>
+                        Bar Chart Example
+                    </div>
+                    <div class="card-body"><canvas id="myBarChart" width="100%" height="40"></canvas></div>
+                </div>
+            </div>
+        </div>
+        <div class="card mb-4">
+            <div class="card-header">
+                <i class="fas fa-table me-1"></i>
+                DataTable Example
+            </div>
+            <div class="card-body">
+                
+            </div>
+        </div>
+    </div>
+</main>

@@ -1,0 +1,79 @@
+
+{% extends 'userdash/prototype.html' %}
+
+
+{% block main %}
+
+<div class="m-3 row">
+    <div class="col col-md-8 main">
+         <div class=" card">
+             <div class="card-body text-center">
+                  <table class="table table-striped table-responsive">
+                      <tbody>
+                          <tr>
+                              <td>Name</td>
+                              <td>: </td>
+                              <td>  {{prof.pat_lastname}} {{prof.pat_firstname}} </td>
+                          </tr>
+                          <tr>
+                              <td>Email</td>
+                              <td>: </td>
+                              <td>{{prof.pat_email}}</td>
+                          </tr>
+                          <tr>
+                              <td>Phone Number</td>
+                              <td>:</td>
+                              <td>{{prof.pat_phn}}</td>
+                          </tr>
+                          <tr>
+                              <td>Address</td>
+                              <td>:</td>
+                              <td>{{prof.pat_address}}</td>
+                          </tr>
+                          <tr>
+                              <td>Gender</td>
+                              <td>:</td>
+                              <td>{{prof.pat_gender}} </td>
+                          </tr>
+                          <tr>
+                              <td>Insurance Number</td>
+                              <td>:</td>
+                              <td>{{prof.insurance_number}} </td>
+                          </tr>
+                          <tr>
+                              <td>Marital Status</td>
+                              <td>:</td>
+                              <td>{{prof.pat_mStatus}} </td>
+                          </tr>
+                          <tr>
+                              <td>Next Of Kin</td>
+                              <td>:</td>
+                              <td>{{prof.pat_kin}}</td>
+                          </tr>
+                          <tr>
+                              <td>Next Of kin Number</td>
+                              <td>:</td>
+                              <td>{{prof.pat_kinphn}}</td>
+                          </tr>
+                          <tr>
+                              <td>Date Of Registration</td>
+                              <td>:</td>
+                              <td>{{prof.datereg}}</td>
+                          </tr>
+                      </tbody>
+                  </table>
+             </div>
+          </div>
+     
+    </div>
+    <div class="col col-md-4"> <img src="/static/uploads/{{prof.profile_picture}}" style="width: 100%; height: 580px;" alt=""></div>
+ </div>
+
+
+{% endblock %}
+
+
+
+{% block query %}
+
+{% endblock %}

@@ -1,0 +1,75 @@
+{% extends 'userdash/prototype.html' %}
+
+
+{% block main %}
+
+<main class="form-signin w-100 m-auto">
+    <!--  
+        <img class="mb-4" src="/static/images/bw.png" alt="" height="100">
+    <h1 class="h3 mb-3 fw-normal">New User Registration</h1> -->
+     
+     <div class="row justify-content-center">
+      <div class="card-body col-md-6">
+        <p class="text-danger">Kindly note that a Consultation fee of #20,000 will be charged from your account. Click continue to proceed with payment</p>
+        
+      <form method="post" action="/payment/">
+        
+        <div>
+          <input type="hidden" name="csrf_token" value="{{csrf_token()}}" >
+          <input type="hidden" name="personnel_id" id="personnelId">
+            {#{{donate.hidden_tag()}}#}
+        </div>
+       
+        <div class="row mb-3 justify-content-center">
+            <div class="col-md-12">
+      
+            <div class="f mb-3 mb-md-0">
+              <label for="name">Fullname</label>
+              <input type="text" name="fullname" id="name" class="form-control" value="{{prof.pat_lastname}} {{prof.pat_firstname}}">
+              {#{{donate.fullname(class_='form-control',placeholder='Enter your fullname',value=prof.pat_lastname)}}
+              {{donate.fullname.label}}#}
+            </div>
+            </div>
+        </div>
+        <div class=" mb-3">
+          <label for="email">Email</label>
+          <input type="email" name="email" id="email" class="form-control" value="{{prof.pat_email}}">
+          {#{{donate.email(class_='form-control',placeholder='Enter your email')}}
+              {{donate.email.label}}#}
+      
+        </div>
+        <div class=" mb-3">
+          <label for="amt">Amount</label>
+          <input type="text" name="amount" id="amt" class="form-control" disabled value="#20000">
+          {#{{donate.amount(class_='form-control',placeholder='Enter amount')}}
+              {{donate.amount.label}}#}
+      
+        </div>
+       
+        <div class="mt-4 mb-0">
+            <div class="d-grid">   
+              <button type="submit" class="btn btn-danger">Continue</button>
+              {#{{donate.btnsubmit(class_='btn btn-danger')}}#}
+             
+            </div>
+        </div>
+      </form>
+      </div>
+     </div>
+    
+    </main>
+
+{%endblock%}
+
+
+
+{% block query %}
+<script>
+  // JavaScript to extract and set personnel ID from the URL
+  window.onload = function() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const personnelId = urlParams.get('personnel_id');
+      document.getElementById('personnelId').value = personnelId;
+  }
+</script>
+{%endblock%}

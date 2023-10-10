@@ -1,0 +1,239 @@
+{% extends 'userdash/prototype.html' %}
+
+
+{% block main %}
+
+{% set m = get_flashed_messages(with_categories=True) %}
+{%if m: %}
+{% for cat,msg in m %}
+    {% if cat == "error" %}
+    <div class="alert alert-danger text-center">{{msg}} </div>
+    {% else %}
+    <div class="alert alert-success text-center">{{msg}} </div>
+    {%endif%}
+{%endfor %}
+{%endif%}
+
+<div class="container-fluid ">
+
+
+       <div class="row">
+        <div class="col-md">
+            <h2>All Appointments</h2>
+          
+            {% if all %}
+              <table class="table table-responsive table stripped">
+                <thead>
+                  <tr>
+                    <th>S/N</th>
+                    <th>Pesonnel fullname</th>
+                    <th>app date</th>
+                    <th>app time</th>
+                    <th>app status</th>
+                    <th>Cancel App</th>
+                    <th>Reviews</th>
+                    <th>Payment Status</th>
+                    <th>Payment Feedback</th>
+                    <th>Message Personnel</th>
+                    <th>Feedback</th>
+                  </tr>
+                </thead>
+               
+                <tbody>
+                  {% for i in all %}
+                  <tr>
+                    <td>{{loop.index}}</td>
+                    <td>{{i.app.per_lastname}} {{i.app.per_firstname}}</td>
+                    <td>{{i.app_date}}</td>
+                    <td>{{i.app_time}}</td>
+                    {%if i.app_status == "pending"%}
+                    <td><button class="btn btn-warning">Pending</button></td>
+                    {%elif i.app_status == "approved" %}
+                        <td><button class="btn btn-success">Approved</button></td>
+                    {%else%}
+                        <td><button class="btn btn-danger">Declined</button></td> 
+                    {%endif%}
+                    <td><a href="{{url_for('delete_app',id=i.app_id)}}" onclick="return confirm('Do you really want to cancel this appointment?')" class="btn btn-danger">Cancel</a></td>
+                    {%if i.app_status == "approved"%}
+                    <td>
+                      <button type="button" class="btn btn-primary mybtn" data-toggle="modal" data-target="#exampleModal" data-user='{{i.app.per_id}}'>  Reviews </button>
+                    </td>
+                    {%endif%} 
+
+
+                    {% if i.app_status == "approved" %}
+                    <td>
+                      {% set payment_record_found = false %}
+                      
+                      {% for f in fin %}
+                        {% if i.app_per_id == f.fin_per_id %}
+                          {% set payment_record_found = true %}
+                          {% if f.fin_status == "pending" %}
+                            <button class="btn btn-warning">Pending</button>
+                            <td><a href="/payment?personnel_id={{ i.app.per_id }}" style="display: none;" class="btn btn-info">Payment</a></td>
+                           <td></td>
+                          {% elif f.fin_status == "approved" %}
+                            <button class="btn btn-success">Paid</button>
+                            <td><a href="/payment?personnel_id={{ i.app.per_id }}" style="display: none;" class="btn btn-info">Payment</a></td>
+                            <td><a href="{{url_for('patient_chat')}}"  class="btn btn-info">Message</a></td>
+                          {% elif f.fin_status == "declined" %}
+                            <button class="btn btn-danger">Failed</button>
+                            {#<td><a href="/payment?personnel_id={{ i.app.per_id }}"  class="btn btn-info">Payment</a></td>#}
+                          
+                            {%endif%}
+                        {% endif %}
+                      {% endfor %}
+                
+                    {% endif %}
+
+                    {% if i.app_status == "approved" %}
+                          <td><a href="/payment?personnel_id={{ i.app.per_id }}" class="btn btn-info">Payment</a></td>
+                          
+                          
+                          {%endif%}
+                   
+                    
+                  {% if i.app_status == "declined"%}
+                  <td><p>Cannot Make reviews</p></td>
+                  <td><p></p></td>
+                  <td><p></p></td>
+                  <td><p></p></td>
+                  {%for y in i.app_feed%}
+                  <td>{{y.feed_message}}</td>
+                  {%endfor%}
+                  {%endif%}
+                
+                
+                
+                
+                
+  
+                     
+                  </tr>
+                  {%endfor%}
+                </tbody>
+              </table>
+              {%else%}
+              <div class="alert alert-info">No Appointment booked</div>
+              {%endif%}
+           </div>
+        </div>
+</div>
+
+
+  
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Review Form</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form action="/review/{{ personnel_id }}" method="post">
+          <input type="hidden" name="csrf_token" value="{{csrf_token()}}" >
+          <div class="modal-body">
+              <div class="form-floating">
+                  <textarea class="form-control"  name="txt" placeholder="Leave a comment here" id="txt"></textarea>
+                  <label for="txt">Comments</label>
+              </div>
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button id="btn" class="btn btn-primary">Submit</button>
+          </div>
+      </form>
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+
+{%endblock%}
+
+
+
+{% block query %}
+
+         
+<script>
+    $(document).ready(function(){
+          $("#state").change(function(){
+              var selected_state = $(this).val()
+              var url = "/lga/"+ selected_state
+              $('#mylga').load(url)
+              // $('#mlga').change(function(){
+              //   $("#chk").prop("disabled",false)
+              // })
+          })
+
+
+          $(".ok").click(function(){
+            $("#show").css("display","block")
+          })
+
+
+          // Review submission
+          $('#btn').click(function(event) {
+            event.preventDefault();
+            
+            // Get the personnel ID from the URL
+            var personnelid = $('#personnel_id').val();
+
+            // Get other data
+            var content = $('#txt').val();
+            var csrf = "{{ csrf_token() }}";
+            var data2send = {"content": content, "csrf_token": csrf, "personnel": personnelid};
+
+            // Make an AJAX call using $.post
+            $.post(`/review/${personnelid}`, data2send, function(serverRsp) {
+                $('#feedback').append(serverRsp).addClass("alert alert-info");
+                $("#txt").val(""); // Clear the textarea
+            });
+        });
+
+
+
+      })
+  
+  
+  </script>
+
+<script type="text/javascript"> 
+
+  //triggered when modal is about to be shown
+  $('#exampleModal').on('show.bs.modal', function(e) {
+  
+      //get data-id attribute of the clicked element
+      var userid = $(e.relatedTarget).data('user');
+      // alert(userid);
+      //make an ajax call to receive an array based on userid, that is you can now pass the userid to an ajax. let's say the ajax returns t     
+      
+      $(e.currentTarget).find('.modal-body').html(` <form action="/review/${userid}" method="post">
+  
+  <div class="modal-body">
+      <div class="form-floating">
+          <textarea class="form-control"  name="txt" placeholder="Leave a comment here" id="txt"></textarea>
+          <label for="txt">Comments</label>
+      </div>
+  </div>
+  <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      <button id="btn" class="btn btn-primary">Submit</button>
+  </div>
+</form>`); //displays t inside the div with class modal-body
+      // $(e.currentTarget).find('.modal-title').html("Details for User"+ userid); //displays this in the div with class modal-title
+  
+  });
+  </script>
+
+<!-- for payment -->
+
+
+
+
+{%endblock%}

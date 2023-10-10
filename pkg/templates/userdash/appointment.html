@@ -1,0 +1,268 @@
+{% extends 'userdash/prototype.html' %}
+
+
+{% block main %}
+
+{% set m = get_flashed_messages(with_categories=True) %}
+{%if m: %}
+{% for cat,msg in m %}
+    {% if cat == "error" %}
+    <div class="alert alert-danger text-center">{{msg}} </div>
+    {% else %}
+    <div class="alert alert-success text-center">{{msg}} </div>
+    {%endif%}
+{%endfor %}
+{%endif%}
+
+<div class="container-fluid ">
+<div id="feedback"></div>
+    <div class="row mt-3 justify-content-center d-flex">
+       <div class="col-md ">
+        <h2 >Search for Personnels below</h2>
+        
+          <form action="{{url_for('appointment')}}" method="post">
+            <input type="hidden" name="csrf_token" value="{{csrf_token()}}">
+              <div class="row">
+                  
+                  <div class="col-md-4">
+                    <select name="spec" id="spec" class="form-control mt-2">
+                      <option value="">Select specialization</option>
+                      {% for s in spec %}
+                      <option value="{{s.spec_id}}">
+                          {{s.spec_name}}
+                      </option>
+                      {%endfor%}
+                    </select>
+                  </div>
+                  <div class="col-md-4">
+                    <select  name="state" id="state" class=" form-control mt-2">
+                      <option value="">Select state</option>
+                      {% for s in state %}
+                      <option value="{{s.state_id}}">
+                          {{s.state_name}}
+                      </option>
+                      {%endfor%}
+                    </select>
+                  </div>
+
+                  <div id="mylga" class="col-md-4 "></div>
+                  <div><button type="submit"  id="chk" class="btn btn-primary my-2">Search</button></div>
+              </div>
+          </form>
+       </div>
+
+      </div>
+
+    <!-- Search results -->
+
+    
+    <div class="card mb-4 ">
+        <div class="card-header">
+            <i class="fas fa-table me-1"></i>
+            Search Results
+        </div>
+        <div class="card-body">
+            <div class="col-md">
+                <div class="formbold-main-wrapper" id="display">
+                  {% if query|count > 0 %}
+                  <table class="table table-striped table-responsive">
+                      <tr>
+                        <th>S/N</th>
+                        <th>Fullnme</th>
+                        <th>specialization</th>
+                        <th>Reviews</th>
+                        <th>Action</th>
+                      </tr>
+                      {% for i in query %}
+                      <tr>
+                        <td>{{loop.index}}</td>
+                        <td>{{i.per_lastname}} {{i.per_firstname}}</td>
+                        <td>{{i.per_spec.spec_name}}</td>
+                        {% if i.per_rev | count > 0%}
+                       {# <td><a href="{{url_for('per_review',id=i.per_id)}}"></a></td>#}
+
+                        <td><button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                          {{i.per_rev|count}} Review(s)
+                        </button>
+                      </td>
+
+
+                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                          <div class="modal-dialog">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Review Details</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                              </div>
+                              {%for a in i.per_rev%}
+                              <div class="modal-body">
+                                <h5>Reviewed by: {{a.rev_deets.pat_firstname}} {{a.rev_deets.pat_lasstname}}</h5>
+                                <hr class="bg-primary">
+                               <p style="font-size: 25px;"> {{a.message}}</p>
+                              </div>
+                              {%endfor%}
+                              
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+
+
+
+
+                        {%else%}
+                        <td><a href="">{{i.per_rev|count}} Review(s)</a></td>
+                        {%endif%}
+                        <td><a class="btn btn-primary" data-bs-toggle="modal" onclick="openModal('{{ i.per_id }}')" href="#exampleModalToggle" role="button">View More</a></td>
+                      </tr>
+                      {%endfor%}
+                  </table>
+
+                  </div>
+                  {%endif%}
+            </div>
+        </div>
+    </div>
+ </div>
+
+
+ <!-- Modals start heere -->
+
+ <div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalToggleLabel">Personnel Details</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body justify-content-center bg-primary text-light" id="modalBody">
+        
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-danger" data-bs-target="#exampleModalToggle2"  data-bs-toggle="modal" data-bs-dismiss="modal">Book Appointment</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header" id="head">
+        <h3 class="modal-title" id="exampleModalToggleLabel2">Appointment Form</h3>
+        
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form action="{{url_for('book_app')}}" method="post" id="appointmentForm" >
+        <input type="hidden" name="csrf_token" value="{{csrf_token()}}" >
+        <input type="hidden" name="appid" id="patid" value="">
+        <div class="modal-body">
+          <div><label for="date">Date</label></div>
+          <div class="col-md my-3 mx-3"><input type="date" name="date" id="date" value="date" class="form-control"></div>
+          <div><label for="time">Time</label></div>
+          <div class="col-md my-3 mx-3"><input type="time" name="time" id="time" value="time" class="form-control"></div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-primary"  id="btnapp"  data-bs-dismiss="modal">Submit</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- this is show reviews -->
+
+
+
+
+{%endblock%}
+
+
+
+{% block query %}
+
+         
+<script>
+
+
+    $(document).ready(function(){
+          $("#state").change(function(){
+              var selected_state = $(this).val()
+              var url = "/lga/"+ selected_state
+              $('#mylga').load(url)
+              // $('#mlga').change(function(){
+              //   $("#chk").prop("disabled",false)
+              // })
+          })
+
+
+          $(".ok").click(function(){
+            $("#show").css("display","block")
+          })
+
+
+          // Review submission
+          $('#btn').click(function(event){
+          event.preventDefault();
+          // make ajax call using the $.post
+          var content = $('#txt').val()
+          var csrf = "{{csrf_token()}}"
+          var personnelid = $('#appid').val()
+          var data2send = {"content":content,"csrf_token":csrf,"personnel":personnelid}
+          
+        $.post("/review/",data2send,function(serverRsp){
+          $('#feedback').append(serverRsp).addClass("alert alert-info")
+          
+        })
+      
+      })
+      })
+  
+  
+  </script>
+
+  
+<script type="text/javascript"> 
+
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+function openModal(userId) {
+    const userDetailsEndpoint = `/view_per/${userId}`;
+    
+    fetch(userDetailsEndpoint)
+        .then(response => response.json())
+        .then(userDetails => {
+            const modalBody = document.getElementById('modalBody');
+            modalBody.innerHTML = `
+           <div style="display:justify-content-center"> <img src="/static/uploads/${userDetails.pix}" alt="Profile Picture" width="150" height="150">
+           <hr class="bg-light">
+            <h3>Fullname: ${userDetails.lname}  ${userDetails.fname}</h3>
+            <p><b>State</b>: ${userDetails.state}</p>
+            <p><b>Lga</b>: ${userDetails.lga}</p>
+            <p><b>Gender</b>: ${userDetails.gender}</p>
+            <p><b>Verification Status</b>: ${userDetails.var_status}</p></div>
+                                    `;
+
+            // Update the appid input value dynamically
+            $('#patid').val(userId);
+
+            // Set the modal title
+            $('#exampleModalLabel').text('User Details: ' + userDetails.name);
+
+            // Show the modal
+            $('#userDetailsModal').modal('show');
+        })
+        .catch(error => console.error('Error fetching user details:', error));
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+  </script>
+
+{%endblock%}

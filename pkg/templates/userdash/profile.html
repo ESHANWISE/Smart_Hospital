@@ -1,0 +1,79 @@
+{% extends 'userdash/prototype.html' %}
+
+
+{% block main %}
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        {% set m = get_flashed_messages(with_categories=True) %}
+        {%if m: %}
+        {% for cat,msg in m %}
+            {% if cat == "error" %}
+            <div class="alert alert-danger text-center">{{msg}} </div>
+            {% else %}
+            <div class="alert alert-success text-center">{{msg}} </div>
+            {%endif%}
+        {%endfor %}
+        {%endif%}
+        <h2 class="text-center">Account</h2>
+        
+        <p class="text-center">Edit your account settings and change password here</p>
+    </div>
+</div>
+<div class="row justify-content-center">
+    <div class="col-md-6 text-center">
+        <form action="{{url_for('changedp')}}" method="post" enctype="multipart/form-data">
+            <input type="hidden" value="{{csrf_token()}}" name="csrf_token">
+            <div class=""><img src="/static/uploads/{{prof.profile_picture}}" alt="" width="200" height="200" class="center"></div>
+            <div class="mb-3">
+            <label for="file" class="form-label"></label>
+            <input class="form-control"name="dp" type="file" id="file" >
+            </div>
+            <button type="submit" class="btn btn-success text-start"> Upload Picture</button>
+        </form>
+    </div>
+</div>
+<hr>
+<!-- Change of password -->
+<div class="row justify-content-center mt-3">
+    <div class="col-md-6">
+       <form action="{{url_for('edit_password')}}" method="post">
+            <input type="hidden" value="{{csrf_token()}}" name="csrf_token">
+            <div class="mb-3">
+                <label for="pwd" class="form-label">Password:</label>
+                <input type="text" class="form-control" name="pwd" id="oldpwd" placeholder="Enter current password">
+            </div>
+            <div class="mb-3">
+                <label for="newpwd" class="form-label"></label>
+                <input type="text" class="form-control" name="newpwd" id="newpwd" placeholder="Enter new password">
+            </div>
+            <div class="mb-3">
+                <label for="cnewpwd" class="form-label"></label>
+                <input type="text" class="form-control" name="newpwd" id="cnewpwd" placeholder="Re-type password">
+            </div>
+            <button class="btn btn-success" type="submit">Submit</button>
+       </form>
+            <hr>
+            <!-- change Phone number -->
+        <form action="{{url_for('edit_number')}}" method="post">
+            <input type="hidden" value="{{csrf_token()}}" name="csrf_token">
+            <div class="mb-3">
+                <label for="phn" class="form-label"></label>Change Phone Number
+                <input type="text" class="form-control" name="oldphn" id="formGroupExampleInput2" placeholder="Old Phone number">
+            </div>
+            <div class="mb-3">
+                <label for="phn" class="form-label"></label>
+                <input type="text" class="form-control" name="newphn" id="formGroupExampleInput2" placeholder="New Phone number">
+            </div>
+            <button class="btn btn-success" type="submit">Submit</button>
+        </form>
+    </div>
+</div>
+
+{%endblock%}
+
+
+
+{% block query %}
+
+{%endblock%}

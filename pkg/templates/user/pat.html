@@ -1,0 +1,242 @@
+{% extends "user/prototype.html" %}
+
+{% block title%} 
+  Patients Login Page
+{% endblock %}
+
+
+    {% block banner %}
+
+    <div class="container " style="margin-top: 120px;">
+
+        <div class="card o-hidden border-0 shadow-lg my-5">
+            <div class="card-body p-0">
+                <!-- Nested Row within Card Body -->
+                <div class="row" style="min-height: 100px;">
+                    <div class="col-lg-5 d-none d-lg-block bg-register-image"><img src="/static/images/pat.jpg" class="image-fluid" alt="" width="607" height="900"></div>
+                    <div class="col-lg-7">
+                        <div class="p-5 text-center">
+                            <div class="">
+                                <h1 class="h4 text-gray-900 mb-4">Create an Account!</h1>
+                            </div>
+                            <!-- create account form -->
+
+                            <div class="m-auto">
+                              <form action="/pat/" method="POST" id="formMain" enctype="multipart/form-data"  style="display: none;" novalidate>
+                                {{ f.csrf_token }} 
+                                <div id="regForm">
+                                 
+                                  <h2 class="text-center mt-3 text-white">REGISTRATION FORM</h2>
+                                  <div class="row">
+                                    <div class="col my-3 mx-3">
+                                      {{f.fname.label}}
+                                      {% if f.fname.errors %}
+                                          {% for j in f.fname.errors %}
+                                        <p style="color: red;">{{j}} </p>
+                                          {% endfor %}
+                                      {%endif %}
+                                      {{f.fname(class_="form-control" ) }}
+                                    </div>
+                                    <div class="col my-3 mx-3">
+                                      {{f.lname.label}}
+                                      {% if f.lname.errors %}
+                                        {% for j in f.lname.errors %}
+                                        <p style="color: red;">{{j}}</p>
+                                        {% endfor %}
+                                      {%endif%}
+                                      {{f.lname(class_="form-control" )}}
+                                    </div>
+                                  </div>
+                                  <div class="row">
+                                    <!-- password -->
+                                    <div class="col my-3 mx-3">
+                                      {{f.pwd.label}}
+                                      {% if f.pwd.errors %}
+                                          {% for j in f.pwd.errors %}
+                                        <p style="color: red;">{{j}} </p>
+                                          {% endfor %}
+                                      {%endif %}
+                                      {{f.pwd(class_="form-control" ) }}
+                                      <a href="{{url_for('suggestpwd')}}" style="text-decoration: none;"><span style="color: red;">Suggest a strong Password</span></a>
+                                    </div>
+                                    <div class="col my-3 mx-3">
+                                      {{f.cpwd.label}}
+                                      {% if f.cpwd.errors %}
+                                        {% for j in f.cpwd.errors %}
+                                        <p style="color: red;">{{j}}</p>
+                                        {%endfor%}
+                                      {%endif%}
+                                      {{f.cpwd(class_="form-control" )}}
+                                    </div>
+                                  </div>
+                                  <!-- email, date, phone number -->
+                                  <div class="row">
+                                    <div class="col my-3 mx-3">
+                                      {{f.email.label}}
+                                      {% if f.email.errors %}
+                                          {% for j in f.email.errors %}
+                                        <p style="color: red;">{{j}} </p>
+                                          {% endfor %}
+                                      {%endif %}
+                                      {{f.email(class_="form-control" ) }}
+                                    </div>
+                                    <div class="col my-3 mx-3">
+                                      {{f.Dob.label}}
+                                      {% if f.Dob.errors %}
+                                        {% for j in f.Dob.errors %}
+                                        <p style="color: red;">{{j}}</p>
+                                        {%endfor%}
+                                      {%endif%}
+                                      {{f.Dob(class_="form-control" )}}
+                                    </div>
+                                    <div class="col my-3 mx-3">
+                                      {{f.phn.label}}
+                                      {% if f.phn.errors %}
+                                        {% for j in f.phn.errors %}
+                                        <p style="color: red;">{{j}}</p>
+                                        {%endfor%}
+                                      {%endif%}
+                                      {{f.phn(class_="form-control" )}}
+                                    </div>
+                                  </div>
+                                  
+                                  <!-- Gender -->
+                                 
+                                  <div class="col-md-11 m-auto mb-3">
+                                    <div class="col my-3 mx-3">
+                                      {{f.gender.label}}
+                                      {% if f.gender.errors %}
+                                        {% for j in f.gender.errors %}
+                                        <p style="color: red;">{{j}}</p>
+                                        {%endfor%}
+                                      {%endif%}
+                                      {{f.gender(class_="form-control" )}}
+                                    </div>
+                                  </div>
+          
+                                  <!-- Profile Picture -->
+                                  <div class="mb-3 col-md-11 m-auto">
+                                    <div class="col my-3 mx-3">
+                                      {{f.photo.label}}
+                                      {% if f.photo.errors %}
+                                        {% for j in f.photo.errors %}
+                                        <p style="color: red;">{{j}}</p>
+                                        {%endfor%}
+                                      {%endif%}
+                                      {{f.photo(class_="form-control" )}}
+                                    </div>
+                                  </div>
+          
+                                  <!-- /insurance number -->
+                                  <div class="m-auto col-md-11">
+                                    <div class="col my-3 mx-3">
+                                      {{f.insurance.label}}
+                                      {% if f.insurance.errors %}
+                                        {% for j in f.insurance.errors %}
+                                        <p style="color: red;">{{j}}</p>
+                                        {%endfor%}
+                                      {%endif%}
+                                      {{f.insurance(class_="form-control" )}}
+                                    </div>
+                                  </div>
+                                  
+                                  <!-- address -->
+          
+                                  <div class="m-auto col-md-11 my-3">
+                                    <div class="col my-3 mx-3">
+                                      {{f.address.label}}
+                                      {% if f.address.errors %}
+                                        {% for j in f.address.errors %}
+                                        <p style="color: red;">{{j}}</p>
+                                        {%endfor%}
+                                      {%endif%}
+                                      {{f.address(class_="form-control" )}}
+                                    </div>
+                                  </div>
+          
+                                  <!-- Marital status -->
+                                  <div class="m-auto col-md-11 my-3">
+                                    <div class="col my-3 mx-3">
+                                      {{f.mStatus.label}}
+                                      {% if f.mStatus.errors %}
+                                        {% for j in f.mStatus.errors %}
+                                        <p style="color: red;">{{j}}</p>
+                                        {%endfor%}
+                                      {%endif%}
+                                      {{f.mStatus(class_="form-control" )}}
+                                    </div>
+                                  </div>
+                                  <!-- next of kin -->
+                                  
+                                  <div class="col-md mt-3">
+                                    {{f.subbtn(class_="btn btn-danger col-12" )}}
+                                  </div>
+                                  <h6 class=" pb-3 mt-2" style="padding-left: 12px;">By registering you accept our <a href="#" style="text-decoration: none;color: red;">Terms and Condtion</a></h6>
+                                  <h6 class="px-3 mt-2 text-primary" id="change">already a member?</h6>
+                                </div>
+                              </form>
+
+
+                            <!-- :Login form -->
+                            <form action="/login" id="logForm" method="POST"   novalidate>
+                                <div class="col-md">
+                                  {% set m = get_flashed_messages(with_categories=True) %}
+                                  {%if m: %}
+                                  {% for cat,msg in m %}
+                                      {% if cat == "error" %}
+                                      <div class="alert alert-danger text-center">{{msg}} </div>
+                                      {% else %}
+                                      <div class="alert alert-success text-center">{{msg}} </div>
+                                      {%endif%}
+                                  {%endfor %}
+                                  {%endif%}
+                                </div>
+                                <div>
+                                  <h2 class="text-center text-white mt-3">LOGIN FORM</h2>
+                                  {{ f.csrf_token }} 
+                                  <div class="col-md my-3 mx-3">
+                                    {{f.email.label}}
+                                    {% if f.email.errors %}
+                                        {% for j in f.email.errors %}
+                                      <p style="color: red;">{{j}} </p>
+                                        {% endfor %}
+                                    {%endif %}
+                                    {{f.email(class_="form-control" ) }}
+                                  </div>
+                                  <div class="col-md my-3 mx-3">
+                                    {{f.pwd.label}}
+                                    {% if f.pwd.errors %}
+                                      {% for j in f.pwd.errors %}
+                                      <p style="color: red;">{{j}}</p>
+                                      {% endfor %}
+                                    {%endif%}
+                                    {{f.pwd(class_="form-control" )}}
+                                  </div>
+                                  <div class="col-md my-3 mx-3">
+                                    <button class="btn btn-danger my-2 form-control" type="submit" onclick="return validate()"> Log In</button>
+                                    <h6 href="" id="login" class="mb-1 text-primary">Not a member ?</h6>
+                                  </div>
+                                </div>
+                               
+                              </form>
+                            </div>
+                            
+                            <hr>
+                            <div class="text-center">
+                                <a class="small" href="{{url_for('forgot_password')}}">Forgot Password?</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    
+
+    {% endblock %}
+
+    {% block query%}
+    
+{%endblock%}

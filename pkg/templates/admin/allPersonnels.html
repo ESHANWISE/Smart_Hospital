@@ -1,0 +1,191 @@
+
+{% extends 'admin/admin_prototype.html'%}
+
+
+{% block content %}
+
+        <main>
+
+            {% set m = get_flashed_messages(with_categories=True) %}
+{%if m: %}
+{% for cat,msg in m %}
+    {% if cat == "error" %}
+    <div class="alert alert-danger text-center">{{msg}} </div>
+    {% else %}
+    <div class="alert alert-success text-center">{{msg}} </div>
+    {%endif%}
+{%endfor %}
+{%endif%}
+            <div class="container-fluid px-4">
+                <h1 class="mt-4">Dashboard</h1>
+                <ol class="breadcrumb mb-4">
+                    <li class="breadcrumb-item active">Dashboard</li>
+                </ol>
+                <div class="row">
+                    <div class="col-xl-3 col-md-6">
+                        <div class="card bg-primary text-white mb-4">
+                            <div class="card-body">Patients</div>
+                            <div class="card-footer d-flex align-items-center justify-content-between">
+                                <a class="small text-white stretched-link" href="{{url_for('allPatients')}}">View Details</a>
+                                <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-md-6">
+                        <div class="card bg-warning text-white mb-4">
+                            <div class="card-body">Personnels</div>
+                            <div class="card-footer d-flex align-items-center justify-content-between">
+                                <a class="small text-white stretched-link" href="{{url_for('allPersonnels')}}">View Details</a>
+                                <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-md-6">
+                        <div class="card bg-success text-white mb-4">
+                            <div class="card-body">All Financial Transactions</div>
+                            <div class="card-footer d-flex align-items-center justify-content-between">
+                                <a class="small text-white stretched-link" href="{{url_for('all_payment')}}">View Details</a>
+                                <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-md-6">
+                        <div class="card bg-danger text-white mb-4">
+                            <div class="card-body">Payouts</div>
+                            <div class="card-footer d-flex align-items-center justify-content-between">
+                                <a class="small text-white stretched-link" href="#">View Details</a>
+                                <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card mb-4">
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h3>All Registered Medical Personnels</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="col-md">
+                             
+                                <table class="table table-responsive table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>S/N</th>
+                                            <th>Fullname</th>
+                                            <th>Email</th>
+                                            <th>Gender</th>
+                                            <th>Datereg</th>
+                                            <th>Action</th>
+                                            <th>Status</th>
+                                            <th>Veri-option</th>
+                                            <th>Restricted</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for p in personnel %}
+                                        <tr>
+                                            <td>{{loop.index}}</td>
+                                            <td>  {{p.per_lastname}} {{p.per_firstname}} </td>
+                                            <td> {{p.per_email}} </td>
+                                            <td>{{p.per_gender}}</td>
+                                            <td> {{p.datereg}} </td>
+                                            <td>
+                                            <a href="{{url_for('show_personnel',id=p.per_id)}}" class="btn btn-primary btn-sm">Details</a>
+                                            <a href="{{url_for('delete_personnel',id=p.per_id)}}" class="btn btn-danger btn-sm" onclick="return confirm('Do you really want to delete this record?')"> Delete</a>
+                                            </td>
+                                            <td>
+                                                {% if p.per_kyc %}
+                                                    {% set kyc_entry = p.per_kyc[0] %}
+                                                    {% if kyc_entry.kyc_status == "pending" %}
+                                                    <span class="badge bg-warning">Pending</span>
+                                                    {% elif kyc_entry.kyc_status == "approved" %}
+                                                        <span class="badge bg-success">Approved</span>
+                                                    {% else %}
+                                                        <span class="badge bg-dark">Declined</span>
+                                                    {% endif %}
+                                                    {% else %}
+                                                    <span class="badge bg-secondary">No KYC entry</span>
+                                                    {% endif %}
+                                            </td>
+                                            <td>
+                                                {% if p.per_kyc %}
+                                                {% set kyc_entry = p.per_kyc[0] %}
+                                                {% if kyc_entry.kyc_status == "pending" %}
+                                                <a href="{{ url_for('approve_kyc', kyc_id=kyc_entry.kyc_id) }}" class="btn btn-success btn-sm">Approve</a>
+                                                <a href="{{ url_for('decline_kyc', kyc_id=kyc_entry.kyc_id) }}" class="btn btn-danger btn-sm">Decline</a>
+                                                {%endif%}
+                                                {%endif%}
+                                            </td>
+                                            
+                                            <td>{{ "Yes" if p.per_restricted else "No" }}</td>
+                                            <td>
+                                                <button class="btn btn-info" onclick="toggleAccess('{{ p.per_id }}')">Restrict</button>
+                                            </td>
+
+
+
+
+                                           {#{{p.per_id}}
+
+                                                  
+                                            {% for b in p.per_kyc %}
+                                            
+                                                {%if b.kyc_status == "pending"%}
+                                                <td><button class="btn btn-warning btn-sm">Pending</button> 
+                                                    <a href="{{url_for('delete_personnel',id=p.per_id)}}" class="btn btn-danger btn-sm" onclick="return confirm('Do you really want to delete this record?')"> Delete</a>
+                                                   
+                                                </td>
+                                                
+                                                {% elif b.kyc_status == "approved" %}
+                                                <td><button class="btn btn-success btn-sm">Approved</button>
+                                                    <a href="{{url_for('delete_personnel',id=p.per_id)}}" class="btn btn-danger btn-sm" onclick="return confirm('Do you really want to delete this record?')"> Delete</a>
+                                                    
+                                                </td>
+                                                {%else%}
+                                                <td><button class="btn btn-dark btn-sm">Declined</button> 
+                                                    <a href="{{url_for('delete_personnel',id=p.per_id)}}" class="btn btn-danger btn-sm" onclick="return confirm('Do you really want to delete this record?')"> Delete</a>
+                                                </td>
+                                                {%endif%}
+                                    
+                                            {%endfor%}
+                                            {% if b.kyc_status == "pending" %}
+                                                <td>
+                                                    <a href="{{url_for('approve_kyc',kyc_id=p.per_id)}}" class="btn btn-success btn-sm">Approve</a>
+                                                    <a href="/decline_kyc/{{p.per_id}}" class="btn btn-danger btn-sm">Decline</a>
+                                        
+                                                </td>
+                                                {%endif%}#}
+                                        </tr>
+                                        {%endfor%}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+{%endblock%}
+
+{%block query%}
+<script>
+    function toggleAccess(userId) {
+        // Send an AJAX request to toggle the user's access
+        $.ajax({
+            type: 'GET',
+            url: '/admin/toggle_access/' + userId,
+            success: function(response) {
+                
+                console.log('Toggle access response:', response);
+                // Refresh the page to reflect the updated access
+                location.reload();
+            },
+            error: function(error) {
+                console.error('Error toggling access:', error);
+            }
+        });
+    }
+</script>
+{%endblock%}

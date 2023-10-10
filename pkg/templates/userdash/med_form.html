@@ -1,0 +1,49 @@
+{% extends 'userdash/prototype.html' %}
+
+
+{% block main %}
+
+
+{% set m = get_flashed_messages(with_categories=True) %}
+{%if m: %}
+{% for cat,msg in m %}
+    {% if cat == "error" %}
+    <div class="alert alert-danger text-center">{{msg}} </div>
+    {% else %}
+    <div class="alert alert-success text-center">{{msg}} </div>
+    {%endif%}
+{%endfor %}
+{%endif%}
+
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h2 class="text-danger">Please fill your medical record form correctly</h2>
+            <form action="{{url_for('med_form')}}" method="post">
+                <input type="hidden" name="csrf_token" value="{{csrf_token()}}">
+                <div class="form-floating ">
+                    <textarea class="form-control" name="histories" placeholder="Leave a comment here" id="floatingTextarea" style="height: 100px"></textarea>
+                    <label for="floatingTextarea" class="">What are your Medical histories?</label>
+                </div>
+                <div class="form-floating mt-3">
+                    <textarea class="form-control" name="allergies" placeholder="Leave a comment here" id="floatingTextarea" style="height: 100px"></textarea>
+                    <label for="floatingTextarea" class="">Any Medical Allergies?</label>
+                </div>
+                <div class="form-floating mt-3">
+                    <textarea class="form-control" name="medications" placeholder="Leave a comment here" id="floatingTextarea" style="height: 100px"></textarea>
+                    <label for="floatingTextarea" class="">What Medications have you been on for the past 6 months?</label>
+                </div>
+                <div><button class="btn btn-danger my-3">Submit</button></div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{%endblock%}
+
+
+
+{% block query %}
+
+{%endblock%}

@@ -1,0 +1,61 @@
+{% extends 'perdash/sample.html' %}
+
+
+{% block main %}
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        {% set m = get_flashed_messages(with_categories=True) %}
+        {%if m: %}
+        {% for cat,msg in m %}
+            {% if cat == "error" %}
+            <div class="alert alert-danger text-center">{{msg}} </div>
+            {% else %}
+            <div class="alert alert-success text-center">{{msg}} </div>
+            {%endif%}
+        {%endfor %}
+        {%endif%}
+        <!-- <h2 class="text-center">Account</h2> -->
+    
+        <p class="text-center">Please Upload Your License Certificate Below</p>
+    </div>
+</div>
+<div class="row justify-content-center">
+   
+   <div class="col-md-6 text-center">
+        {%if kyc == None%}
+        <div class="alert alert-danger">Please verify your acoount by uploading your licence certificate.</div>
+        {%elif kyc.kyc_status == "pending"%}
+        <div class="alert alert-warning">Kindly Wait Confirmation is Ongoing  </div>
+        {%elif kyc.kyc_status == "declined"%}
+        <div class="alert alert-danger">Kyc Declined. Please recheck your Details and Reupload. </div>
+        {%else%}
+        <div class="alert alert-success">Kyc Successful. </div>
+        {%endif%}
+        <form action="{{url_for('kyc')}}" method="post" enctype="multipart/form-data">
+            <input type="hidden" value="{{csrf_token()}}" name="csrf_token">
+            <div class="mb-3">
+            <label for="file" class="form-label"></label>
+            <input class="form-control"name="kyc" type="file" id="file" >
+            <span class="text-danger">Only JPG,PNG, & JPEG allowed</span>
+            </div>
+            <button type="submit" class="btn btn-success text-start"> Submit</button>
+        </form>
+    </div>
+</div>
+
+
+{%endblock%}
+
+
+
+{% block query %}
+
+<script>
+
+
+  
+    
+  </script>
+
+{%endblock%}

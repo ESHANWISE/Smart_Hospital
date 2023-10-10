@@ -1,0 +1,115 @@
+
+{% extends 'perdash/sample.html' %}
+
+
+{% block main %}
+
+   <div id="feedback"></div>
+   {% set m = get_flashed_messages(with_categories=True) %}
+{%if m: %}
+{% for cat,msg in m %}
+    {% if cat == "error" %}
+    <div class="alert alert-danger text-center">{{msg}} </div>
+    {% else %}
+    <div class="alert alert-success text-center">{{msg}} </div>
+    {%endif%}
+{%endfor %}
+{%endif%}
+    <div class="row">
+      <div class="col-md">
+          {% if app %}
+          <table class="table table-responsive table-striped">
+              <thead>
+                  <tr>
+                      <th>S/N</th>
+                      <th>Patients Name</th>
+                      <th>Date</th>
+                      <th>Time</th>
+                      <th>Status</th>
+                      <th>Profile</th>
+                      <th>Action</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  {% for i in app %}
+                  <tr>
+                      <td>{{loop.index}}</td>
+                      <td> {{i.app_deets.pat_lastname}} {{i.app_deets.pat_firstname}}</td>
+                      <td>{{i.app_date}}</td>
+                      <td>{{i.app_time}}</td>
+                      {% if i.app_status =="declined" %}
+                      <td>
+                        <button class="btn btn-secondary">Declined</button>
+                      </td>
+                      
+                      {%endif%}
+                      <td><img src="/static/uploads/{{i.app_deets.profile_picture}}" alt="" width="150" height="150"></td>
+                      <td><a href="{{url_for('delete_app2',id=i.app_id)}}" onclick="return confirm('Do you really want to delete this appointment?')" class="btn btn-danger">Delete</a></td>
+                  </tr>
+                  {%endfor%}
+              </tbody>
+          </table>
+          {%else%}
+          <div class="alert alert-info">No Declined Appointments Yet.</div>
+          {%endif%}
+      </div>
+    </div>
+
+
+
+{% endblock %}
+
+
+
+{% block query %}
+
+         
+<script>
+
+
+  $(document).ready(function(){
+        // $("#state").change(function(){
+        //     var selected_state = $(this).val()
+        //     var url = "/lga/"+ selected_state
+        //     $('#mylga').load(url)
+        //     // $('#mlga').change(function(){
+        //     //   $("#chk").prop("disabled",false)
+        //     // })
+        // })
+
+
+        // $(".ok").click(function(){
+        //   $("#show").css("display","block")
+        // })
+
+
+        // Review submission
+        $('#btn1').click(function(){
+        
+        // make ajax call using the $.post
+        var content = $('#pend').val()
+        var csrf = "{{csrf_token()}}"
+        // var personnelid = $('#appid').val()
+        var data = {"content":content,"csrf_token":csrf}
+        $('#feedback').load('/app_history/',data,function(){
+          ("#pend").addClass('btn btn-success').text("Approved")
+        })
+      // $.post("/approve_appointment/<int:appointment_id>/",data2send,function(serverRsp){
+      //   $('#feedback').append(serverRsp).addClass("alert alert-info")
+        
+      // })
+    
+    })
+    })
+
+
+</script>
+<!-- <script>
+    $("#btn1").click(function(){
+      var content = $('#btn').val()
+      var btnsata = "/approve_appointment/<int:appointment_id>/" + content
+      $('$btn1').load(btnsata)
+    })
+</script> -->
+
+{% endblock %}

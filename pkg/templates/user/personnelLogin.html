@@ -1,0 +1,275 @@
+{% extends "user/prototype.html" %}
+
+{% block title%} 
+  Patients Login Page
+{% endblock %}
+
+
+    {% block banner %}
+
+    <div class="row forlogin">
+        <div class="col login">
+                
+              <div class="row justify-content-center mt-5 text-light">
+                <div class="col-md-5 border-dark">
+                    <form action="{{url_for('personnel')}}" method="POST" id="formMain" enctype="multipart/form-data" class="formBorder" style="display: none;" novalidate>
+                      {{ p.csrf_token }} 
+                      <div id="regForm">
+                       
+                        <h2 class="text-center mt-3 text-white">REGISTRATION FORM</h2>
+                        <div class="row">
+                          <div class="col my-3 mx-3">
+                            {{p.fname.label}}
+                            {% if p.fname.errors %}
+                                {% for j in p.fname.errors %}
+                              <p style="color: red;">{{j}} </p>
+                                {% endfor %}
+                            {%endif %}
+                            {{p.fname(class_="form-control" ) }}
+                          </div>
+                          <div class="col my-3 mx-3">
+                            {{p.lname.label}}
+                            {% if p.lname.errors %}
+                              {% for j in p.lname.errors %}
+                              <p style="color: red;">{{j}}</p>
+                              {% endfor %}
+                            {%endif%}
+                            {{p.lname(class_="form-control" )}}
+                          </div>
+                        </div>
+                        <div class="row">
+                          <!-- password -->
+                          <div class="col my-3 mx-3">
+                            {{p.pwd.label}}
+                            {% if p.pwd.errors %}
+                                {% for j in p.pwd.errors %}
+                              <p style="color: red;">{{j}} </p>
+                                {% endfor %}
+                            {%endif %}
+                            {{p.pwd(class_="form-control" ) }}
+                            <a href="{{url_for('suggestpwd')}}" style="text-decoration: none;"><span style="color: red;">Suggest a strong Password</span></a>
+                          </div>
+                          <div class="col my-3 mx-3">
+                            {{p.cpwd.label}}
+                            {% if p.cpwd.errors %}
+                              {% for j in p.cpwd.errors %}
+                              <p style="color: red;">{{j}}</p>
+                              {%endfor%}
+                            {%endif%}
+                            {{p.cpwd(class_="form-control" )}}
+                          </div>
+                        </div>
+                        <!-- email, date, phone number -->
+                        <div class="row">
+                          <div class="col my-3 mx-3">
+                            {{p.email.label}}
+                            {% if p.email.errors %}
+                                {% for j in p.email.errors %}
+                              <p style="color: red;">{{j}} </p>
+                                {% endfor %}
+                            {%endif %}
+                            {{p.email(class_="form-control" ) }}
+                          </div>
+                          <div class="col my-3 mx-3">
+                            {{p.Dob.label}}
+                            {% if p.Dob.errors %}
+                              {% for j in p.Dob.errors %}
+                              <p style="color: red;">{{j}}</p>
+                              {%endfor%}
+                            {%endif%}
+                            {{p.Dob(class_="form-control" )}}
+                          </div>
+                          <div class="col my-3 mx-3">
+                            {{p.phn.label}}
+                            {% if p.phn.errors %}
+                              {% for j in p.phn.errors %}
+                              <p style="color: red;">{{j}}</p>
+                              {%endfor%}
+                            {%endif%}
+                            {{p.phn(class_="form-control" )}}
+                          </div>
+                        </div>
+                        
+                        <!-- Gender -->
+                       
+                        <div class="col-md-11 m-auto mb-3">
+                          <div class="col my-3 mx-3">
+                            {{p.gender.label}}
+                            {% if p.gender.errors %}
+                              {% for j in p.gender.errors %}
+                              <p style="color: red;">{{j}}</p>
+                              {%endfor%}
+                            {%endif%}
+                            {{p.gender(class_="form-control" )}}
+                          </div>
+                        </div>
+
+                        <!-- Profile Picture -->
+                        <div class="mb-3 col-md-11 m-auto">
+                          <div class="col my-3 mx-3">
+                            {{p.photo.label}}
+                            {% if p.photo.errors %}
+                              {% for j in p.photo.errors %}
+                              <p style="color: red;">{{j}}</p>
+                              {%endfor%}
+                            {%endif%}
+                            {{p.photo(class_="form-control" )}}
+                          </div>
+                        </div>
+
+                        <!-- /insurance number -->
+                        <div class="m-auto col-md-11">
+                          <div class="col my-3 mx-3">
+                            {{p.license.label}}
+                            {% if p.license.errors %}
+                              {% for j in p.license.errors %}
+                              <p style="color: red;">{{j}}</p>
+                              {%endfor%}
+                            {%endif%}
+                            {{p.license(class_="form-control" )}}
+                          </div>
+                        </div>
+                        
+                        <!-- address -->
+
+                        <div class="m-auto col-md-11 my-3">
+                          <div class="col my-3 mx-3">
+                            {{p.address.label}}
+                            {% if p.address.errors %}
+                              {% for j in p.address.errors %}
+                              <p style="color: red;">{{j}}</p>
+                              {%endfor%}
+                            {%endif%}
+                            {{p.address(class_="form-control" )}}
+                          </div>
+                        </div>
+
+
+                        <!-- Marital status -->
+                       
+                        <div class="m-auto col-md-11 my-3">
+                          <div class="col my-3 mx-3">
+                            {{p.mStatus.label}}
+                            {% if p.mStatus.errors %}
+                              {% for j in p.mStatus.errors %}
+                              <p style="color: red;">{{j}}</p>
+                              {%endfor%}
+                            {%endif%}
+                            {{p.mStatus(class_="form-control" )}}
+                          </div>
+                        </div>
+
+                        <!-- State -->
+                    
+                        {#<div class="m-auto col-md-11 my-3">
+                          <div class="col my-3 mx-3">
+                          <div>
+                              <select name="special" id="spec" class="form-control mt-5">
+                                <option value="">Please select specialization</option>
+                                {% for s in spec %}
+                                <option value="{{s.spec_id}}">
+                                    {{s.spec_name}}
+                                </option>
+                                {%endfor%}
+                              </select>
+                            </div>
+                            <div>
+                              <select  name="state" id="state" class=" form-control mt-5">
+                                <option value="">Please select state</option>
+                                {% for s in state %}
+                                <option value="{{s.state_id}}">
+                                    {{s.state_name}}
+                                </option>
+                                {%endfor%}
+                              </select>
+                            </div>
+                            <div id="mylga"></div>
+    
+                          </div>
+                      </div>#}
+
+                        <!-- Specialization -->
+                       
+                        
+                      
+                        <div class="col-md mt-3">
+                          {{p.subbtn(class_="btn btn-danger col-12" )}}
+                        </div>
+                        <h6 class="text-white pb-3 mt-2" style="padding-left: 12px;">By registering you accept our <a href="#" style="text-decoration: none;color: red;">Terms and Condtion</a></h6>
+                        <h6 class="px-3 mt-2 text-primary" id="change">already a member?</h6>
+                      </div>
+                    </form>
+                </div>
+            </div>
+
+            
+            <!-- Login form -->
+            <div class="row ">
+                <div class="col">
+                    <div class="row justify-content-center text-light">
+                        <div class="col-md-5">
+                          
+                            <form action="{{url_for('personnel_login')}}" id="logForm" method="POST" class="formBorder"  novalidate>
+                              <div class="col-md">
+                                {% set m = get_flashed_messages(with_categories=True) %}
+                                {%if m: %}
+                                {% for cat,msg in m %}
+                                    {% if cat == "error" %}
+                                    <div class="alert alert-danger text-center">{{msg}} </div>
+                                    {% else %}
+                                    <div class="alert alert-success text-center">{{msg}} </div>
+                                    {%endif%}
+                                {%endfor %}
+                                {%endif%}
+                              </div>
+                              <div>
+                                <h2 class="text-center text-white mt-3">LOGIN FORM</h2>
+                                {{ p.csrf_token }} 
+                                <div class="col-md my-3 mx-3">
+                                  {{p.email.label}}
+                                  {% if p.email.errors %}
+                                      {% for j in p.email.errors %}
+                                    <p style="color: red;">{{j}} </p>
+                                      {% endfor %}
+                                  {%endif %}
+                                  {{p.email(class_="form-control" ) }}
+                                </div>
+                                <div class="col-md my-3 mx-3">
+                                  {{p.pwd.label}}
+                                  {% if p.pwd.errors %}
+                                    {% for j in p.pwd.errors %}
+                                    <p style="color: red;">{{j}}</p>
+                                    {% endfor %}
+                                  {%endif%}
+                                  {{p.pwd(class_="form-control" )}}
+                                </div>
+                                <div class="col-md my-3 mx-3">
+                                  <button class="btn btn-danger my-2 form-control" type="submit" onclick="return validate()"> Log In</button>
+                                  <h6 href="" id="login" class="mb-1 text-danger">Create Account Here</h6>
+                                </div>
+                              </div>
+                             
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+    {% endblock %}
+
+    {% block query%}
+
+    <script>
+       $(document).ready(function(){
+        $("#state").change(function(){
+            var selected_state = $(this).val()
+            var url = "/lga/"+ selected_state
+            $('#mylga').load(url)
+        })
+    })
+
+    </script>
+    {% endblock %}

@@ -1,0 +1,68 @@
+
+{% extends 'perdash/sample.html' %}
+
+
+{% block main %}
+
+   <div id="feedback"></div>
+    <div class="row">
+      <div class="col-md">
+          {% if med %}
+          <h2 class="mt-2 text-center">Medical Details</h2>
+          <table class="table table-responsive table-striped">
+              <thead>
+                  <tr>
+                      <th>S/N</th>
+                      <th>Medical Histories</th>
+                      <th>Allergies</th>
+                      <th>Medications</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  {% for i in med %}
+                        
+                  <tr>
+                      <td>{{loop.index}}</td>
+                      <td> {{i.medical_history}}</td>
+                      <td>{{i.allergies}}</td>
+                      <td>{{i.Medications}}</td>
+                  {%endfor%}
+              </tbody>
+          </table>
+          {%else%}
+          <div class="alert alert-info">No Medical Records Found.</div>
+          {%endif%}
+      </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            {% if lab %}
+            <h2 class="mt-5 text-center">Laboratory Details</h2>
+            <table class="table table-responsive table-striped">
+                <thead>
+                    <tr>
+                        <th>S/N</th>
+                        <th>Lab Test</th>
+                        <th>Lab Orders</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for i in lab %}
+                          
+                    <tr>
+                        <td>{{loop.index}}</td>
+                        <td> {{i.lab_test}}</td>
+                        <td>{{i.lab_orders}}</td>
+                        <div class="col-md-11"> <img src="/static/uploads/{{i.lab_result}}" style="width: 100%; height: 580px;" alt=""></div>
+                    {%endfor%}
+                </tbody>
+            </table>
+            {%else%}
+            <div class="alert alert-info">No Medical Records Found.</div>
+            {%endif%}
+        </div>
+      </div>
+
+
+{% endblock %}

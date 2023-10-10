@@ -1,0 +1,46 @@
+{% extends 'userdash/prototype.html' %}
+
+
+{% block main %}
+
+
+{% set m = get_flashed_messages(with_categories=True) %}
+{%if m: %}
+{% for cat,msg in m %}
+    {% if cat == "error" %}
+    <div class="alert alert-danger text-center">{{msg}} </div>
+    {% else %}
+    <div class="alert alert-success text-center">{{msg}} </div>
+    {%endif%}
+{%endfor %}
+{%endif%}
+
+
+<div class="container">
+    <div class="row justify-content-center">
+        {%if labdisp%}
+        <div class="col-md d-flex">
+            {%for i in labdisp%}
+            <div id="lab" class="col-md-6 text-center">
+                <h3 class="my-5 text-primary">My lab results</h3>
+                <img src="/static/uploads/{{i.lab_result}}" alt="" height="500" width="500">
+            </div>
+            <div class="col-md-6 text-center ">
+                <h3 class="my-5 text-primary">My Lab Test</h3>
+                {{i.lab_test}}
+            </div>
+            {%endfor%}
+        </div>
+        {%else%}
+        <div class="alert alert-info">No lab results found</div>
+        {%endif%}
+    </div>
+</div>
+
+{%endblock%}
+
+
+
+{% block query %}
+
+{%endblock%}

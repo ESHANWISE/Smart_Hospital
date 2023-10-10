@@ -1,0 +1,146 @@
+
+{% extends 'perdash/sample.html' %}
+
+
+{% block main %}
+
+   <div id="feedback"></div>
+    <div class="row">
+      <div class="col-md">
+          {% if app %}
+          <table class="table table-responsive table-striped">
+              <thead>
+                  <tr>
+                      <th>S/N</th>
+                      <th>Patients Name</th>
+                      <th>Date</th>
+                      <th>Time</th>
+                      <th>Status</th>
+                      <th>Contact</th>
+                      <th>Medical Records</th>
+                      <th>Profile</th>
+                      <th>Action</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  {% for i in app %}
+                  <tr>
+                      <td>{{loop.index}}</td>
+                      <td> {{i.app_deets.pat_lastname}} {{i.app_deets.pat_firstname}}</td>
+                      <td>{{i.app_date}}</td>
+                      <td>{{i.app_time}}</td>
+                      {% if i.app_status == "approved" %}
+                      <td>
+                        <button class="btn btn-success">Approved</button>
+                      </td>
+                      {%endif%}
+                      <td><a href="{{url_for('contact')}}" class="btn btn-info">Message Patients</a></td>
+                      {#<td>
+                        <button type="button" class="btn btn-primary" onclick="openModal('{{ i.app_id }}')" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                          Launch demo modal
+                        </button>
+                      </td>#}
+                      <td><a href="{{url_for('view_pat_med',id=i.app_pat_id)}}" class="btn btn-primary">Medical Records</a></td>
+                      <td><img src="/static/uploads/{{i.app_deets.profile_picture}}" alt="" width="150" height="150"></td>
+                      <td><a href="{{url_for('delete_app1',id=i.app_id)}}" onclick="return confirm('Do you really want to delete this appointment?')" class="btn btn-danger">Delete</a></td>
+                  </tr>
+                  {%endfor%}
+              </tbody>
+          </table>
+          {%else%}
+          <div class="alert alert-info">No Approved Appointments Yet.</div>
+          {%endif%}
+      </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" id="modalBody">
+        
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+
+
+
+{% block query %}
+
+         
+<script>
+
+
+  $(document).ready(function(){
+       
+
+    function openModal(userId) {
+  const userDetailsEndpoint = `/view_pat_med/${userId}/`;
+  
+  fetch(userDetailsEndpoint)
+    .then(response => response.json())
+    .then(userDetails => {
+      
+      const modalBody = document.getElementById('modalBody');
+      modalBody.innerHTML = `<p>User ID: ${userId}</p>
+                              <p>Name: ${userDetails.history}</p>
+                              <p>Email: ${userDetails.allergies}</p>
+                              <p>Profile: ${userDetails.Medications}`;
+      // var pat = document.getElementById("patid").value()="${userId}";
+
+      $('#userDetailsModal').modal('show');
+    })
+    .catch(error => console.error('Error fetching user details:', error));
+}
+
+
+        // Review submission
+        $('#btn1').click(function(){
+        
+        // make ajax call using the $.post
+        var content = $('#pend').val()
+        var csrf = "{{csrf_token()}}"
+        // var personnelid = $('#appid').val()
+        var data = {"content":content,"csrf_token":csrf}
+        $('#feedback').load('/app_history/',data,function(){
+          ("#pend").addClass('btn btn-success').text("Approved")
+        })
+      // $.post("/approve_appointment/<int:appointment_id>/",data2send,function(serverRsp){
+      //   $('#feedback').append(serverRsp).addClass("alert alert-info")
+        
+      // })
+    
+    })
+    })
+
+
+</script>
+
+
+{% endblock %}

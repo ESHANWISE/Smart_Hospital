@@ -1,0 +1,53 @@
+{% extends 'userdash/prototype.html' %}
+
+
+{% block main %}
+
+
+<div class="card mb-4 mt-3" >
+    <div class="card-header">
+        <i class="fas fa-table me-1"></i>
+        My medical Records Histories
+    </div>
+    <div class="card-body">
+      <div class="container-fluid bg-light">
+        {%if health%}
+        <table class="table table-responsive table-striped">
+            <thead>
+              <tr>
+                <th scope="col">S//N</th>
+                <th scope="col">Medical Histories</th>
+                <th scope="col">Allergies</th>
+                <th scope="col">Medications</th>
+                <th>Date Updated</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for h in health %}
+              <tr>
+                <th>{{loop.index}}</th>
+                <td>{{h.medical_history}}</td>
+                <td>{{h.allergies}}</td>
+                <td>{{h.Medications }}</td>
+                <td>{{h.health_date_time}}</td>
+              </tr>
+              {%endfor%}
+            </tbody>
+          </table>
+        {%else%}
+        <div class="alert alert-info">No health Records Found</div>
+        {%endif%}
+    </div>
+    
+    </div>
+  
+</div>
+
+
+{%endblock%}
+
+
+
+{% block query %}
+
+{%endblock%}

@@ -1,0 +1,241 @@
+
+{% extends 'admin/admin_prototype.html'%}
+
+
+{% block content %}
+{{patients}}
+<div class="row">
+    <div class="col-md">
+        
+        <main>
+            <div class="container-fluid px-4">
+                <h1 class="mt-4">Dashboard</h1>
+                <ol class="breadcrumb mb-4">
+                    <li class="breadcrumb-item active">Dashboard</li>
+                </ol>
+                <div class="row">
+                    <div class="col-xl-3 col-md-6">
+                        <div class="card bg-primary text-white mb-4">
+                            <div class="card-body">Patients</div>
+                            <div class="card-footer d-flex align-items-center justify-content-between">
+                                <a class="small text-white stretched-link" href="{{url_for('allPatients')}}">View Details</a>
+                                <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-md-6">
+                        <div class="card bg-warning text-white mb-4">
+                            <div class="card-body">Personnels</div>
+                            <div class="card-footer d-flex align-items-center justify-content-between">
+                                <a class="small text-white stretched-link" href="{{url_for('allPersonnels')}}">View Details</a>
+                                <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-md-6">
+                        <div class="card bg-success text-white mb-4">
+                            <div class="card-body">All Financial Transactions</div>
+                            <div class="card-footer d-flex align-items-center justify-content-between">
+                                <a class="small text-white stretched-link" href="{{url_for('all_payment')}}">View Details</a>
+                                <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-md-6">
+                        <div class="card bg-danger text-white mb-4">
+                            <div class="card-body">Payouts</div>
+                            <div class="card-footer d-flex align-items-center justify-content-between">
+                                <a class="small text-white stretched-link" href="#">View Details</a>
+                                <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="col-md-6 text-center">
+                        <div class=""><img src="/static/uploads/{{personnel.per_profile_picture}}" alt="" height="200" width="200" class="center"></div>
+                       <h2>{{personnel.per_lastname}} {{personnel.per_firstname}}</h2>
+                       <h4><b>Specialization:</b> {{personnel.per_spec.spec_name}}</h4>
+                    </div>
+                </div>
+                <!-- All Personnels details -->
+               <div class="card mb-4">
+                    <div class="card-header">
+                        <i class="fas fa-table me-1"></i>
+                        Personnel Full Details
+                    </div>
+                    <div class="card-body">
+                        <div class="col-md">
+                            {% if personnel %}
+                            <table class="table table-responsive table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>S/N</th>
+                                        <th>Marital Status</th>
+                                        <th>Phone Number</th>
+                                        <th>State</th>
+                                        <th>Lga</th>
+                                        <th>DOB</th>
+                                        <th>Address</th>
+                                        <th>Liscence Number</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                
+                                    <tr>
+                                        <td>1</td>
+                                        <td>{{personnel.per_mStatus}}</td>
+                                        <td>{{personnel. per_phn}} </td>
+                                        <td>{{personnel.per_state.state_name}}</td>
+                                        <td>{{personnel.per_lga}}</td>
+                                        <td> {{personnel.per_dob}} </td>
+                                        <td> {{personnel.per_address}} </td>
+                                        <td> {{personnel.liscence_number}} </td>
+                                    </tr>
+                                    
+                                </tbody>
+                            </table>
+                            {%else%}
+                            <div class="alert alert-info">No Appointments Found</div>
+                            {%endif%}
+                        </div>
+                    </div>
+                    
+                </div>
+
+                <!-- All appointments -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <i class="fas fa-table me-1"></i>
+                        All Appointments
+                    </div>
+                    <div class="card-body">
+                        <div class="col-md">
+                            {% if apps %}
+                            <table class="table table-responsive table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>S/N</th>
+                                        <th>Patients Fullname</th>
+                                        <th>Appointment Status</th>
+                                        <th>Appointment date</th>
+                                        <th>Appointment time</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {%for i in apps %}
+                                    <tr>
+                                        <td>{{loop.index}}</td>
+                                        <td>{{i.app_deets.pat_lastname}}  {{i.app_deets.pat_firstname}}</td>
+                                        <td>{{i.app_status}} </td>
+                                        <td> {{i.app_date}} </td>
+                                        <td> {{i.app_time}} </td>
+                                    </tr>
+                                    {%endfor%}
+                                </tbody>
+                            </table>
+                            {%else%}
+                            <div class="alert alert-info">No Records Found</div>
+                            {%endif%}
+                        </div>
+                    </div>
+                    
+                </div>
+
+                <!-- All Reviews -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <i class="fas fa-table me-1"></i>
+                        All Reviews
+                    </div>
+                    <div class="card-body">
+                        <div class="col-md">
+                            {% if rev %}
+                            <table class="table table-responsive table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>S/N</th>
+                                        <th>Patients Fullname</th>
+                                        <th>Review</th>
+                                        <th>Review date</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {%for i in rev %}
+                                    <tr>
+                                        <td>{{loop.index}}</td>
+                                        <td>{{i.rev_deets.pat_lastname}}  {{i.rev_deets.pat_firstname}}</td>
+                                        <td>{{i.message}} </td>
+                                        <td> {{i.rev_date}} </td>
+                                    </tr>
+                                    {%endfor%}
+                                </tbody>
+                            </table>
+                            {%else%}
+                            <div class="alert alert-info">No Reviews Available</div>
+                            {%endif%}
+                        </div>
+                    </div>
+                    
+                </div>
+
+                <!-- Bills -->
+                {#<div class="card mb-4">
+                    <div class="card-header">
+                        <i class="fas fa-table me-1"></i>
+                        Financial Transactions
+                    </div>
+                    <div class="card-body">
+                        <div class="col-md">
+                            {% if fin %}
+                            <table class="table table-responsive table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>S/N</th>
+                                        <th>Patients Name</th>
+                                        <th>Amount</th>
+                                        <th>Payment Details</th>
+                                        <th>payment Status	</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for i in fin %}
+                                    <tr>
+                                        <td>{{loop.index}}</td>
+                                        <td>  {{i.fin_deets.pat_lastname}} {{i.fin_deets.pat_firstname}} </td>
+                                        <td> {{i.finfin_amount}} </td>
+                                        <td> {{i.payment_invoice}} </td>
+                                        <td>
+                                        <a href="" class="btn btn-success btn-sm">Approved</a>
+                                        </td>
+                                    </tr>
+                                    {%endfor%}
+                                </tbody>
+                            </table>
+                            {%else%}
+                            <div class="alert alert-info">No Financial Records Found</div>
+                            {%endif%}
+                        </div>
+                    </div>
+                    
+                </div>#}
+                <!-- Messages -->
+               
+                <div class="row justify-content-center">
+                    <h2>Kyc Image</h2>
+                    
+                    {%if kyc%}
+                    {% for i in kyc %}
+                    <div class="col-md-8"><img src="/static/kyc/{{i.kyc_pix}}" style="width: 100%; height: 600px;" alt=""></div>
+                    {%endfor%}
+                    {%else%}
+                    <div class="alert alert-info">No Financial Records Found</div>
+                    {%endif%}
+                </div>
+                
+            </div>
+        </main>
+    </div>
+</div>
+
+{%endblock%}

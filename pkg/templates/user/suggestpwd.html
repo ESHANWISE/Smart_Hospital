@@ -1,0 +1,53 @@
+{% extends "user/prototype.html" %}
+
+{% block title%} 
+  Patients Login Page
+{% endblock %}
+
+
+    {% block banner %}
+
+    <div class="row forlogin3">
+        <div class="col login1">
+                
+             <!-- suggested password form -->
+            
+            
+            <div class="row justify-content-center sugPad">
+                    <div class="col-md-6 text-light formBorder">
+                        {% set m = get_flashed_messages() %}
+                    {%if m%}
+                       {% for i in m%}
+                    <p class="alert alert-success text-center mt-3">{{i}}</p>
+                        {%endfor%}
+                    {%endif%}
+                        <h2 style="text-align: center;color: white;">Suggest Password</h2>
+                        <form action="/suggestpwd/" method="POST">
+                          {{ sp.csrf_token }} 
+                            <div class="">
+                              {{sp.alpha.label}}
+                              {{sp.alpha(class_="form-control")}}
+                            </div>
+                            <div class="mt-3">
+                              {{sp.symbol.label}}
+                              {{sp.symbol(class_="form-control")}}
+                            </div>
+                            <div class="mt-3">
+                              {{sp.numbers.label}}
+                              {{sp.numbers(class_="form-control")}}
+                            </div>
+                            <div>
+                                <button type="submit" class="btn btn-danger col-12 mt-3">Submit</button>
+                            </div>
+                        </form>
+                        
+                        <a href="{{url_for('pat')}}" class="my-3" style="text-decoration: none;display: block;">Back to Create Account</a>
+                        
+                    </div>
+            </div>
+
+            
+        </div>
+    </div>
+
+    {% endblock %}

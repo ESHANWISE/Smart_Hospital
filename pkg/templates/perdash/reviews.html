@@ -1,0 +1,72 @@
+
+{% extends 'perdash/sample.html' %}
+
+
+{% block main %}
+
+
+<div class="row">
+    <div class="col-md-9">
+        {% if rev %}
+        <table class="table table-responsive table-striped">
+            <thead>
+                <tr>
+                    <th>S/N</th>
+                    <th>Patients Name</th>
+                    <th>Date</th>
+                    <th>Reviews</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for i in rev %}
+                <tr>
+                    <td>{{loop.index}}</td>
+                    <td> {{i.rev_deets.pat_lastname}} {{i.rev_deets.pat_firstname}}</td>
+                    <td>{{i.rev_date}}</td>
+                    <td><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        Show Review
+                      </button>
+                    </td>
+                </tr>
+                {%endfor%}
+            </tbody>
+        </table>
+        {%else%}
+        <div class="alert alert-info">No Reviews Found.</div>
+        {%endif%}
+    </div>
+</div>
+
+
+
+<!-- modals -->
+
+<!-- Button trigger modal -->
+
+  
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Review Details</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        {% for i in rev %}
+        <div class="modal-body">
+        {{i.message}}
+        </div>
+        {%endfor%}
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+
+
+{% block query %}
+
+{% endblock %}

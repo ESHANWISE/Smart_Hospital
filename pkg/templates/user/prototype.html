@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@1,300&family=Poppins:wght@300&family=Roboto&display=swap" rel="stylesheet">
+    <!-- fontawesome -->
+    <link rel="stylesheet" href="/static/assests/fontawesome/css/all.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- Css animate -->
+    <link rel="stylesheet" href="/static/css/css_animate.css">
+    <!-- css bootstrap -->
+    <link rel="stylesheet" href="/static/assests/bootstrap/css/bootstrap.min.css">
+    <!-- css styling -->
+    <link rel="stylesheet" href="/static/css/style.css">
+    <title>{% block title%} 
+            {% endblock %}
+    </title>
+</head>
+<body>
+    
+    <!-- Main container div starts here -->
+
+  <div class="container-fluid">
+
+        <!-- Navbar section starts here -->
+
+        <div class="row">
+            <div class="col-md">
+                <nav class="navbar fixed-top nav-style navbar-expand-lg navbar-light text-light ">
+                    <div class="container-fluid nav-style">
+                      <a class="navbar-brand text-light" href="{{'/'}}"><img src="/static/icon/medicine.png" width="40px"> <span>Smart Hospital</span></a>
+                      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav-list" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                      </button>
+                      <div class="collapse navbar-collapse " id="nav-list">
+                        <ul class="navbar-nav mx-5">
+                          <li class="nav-item my-2">
+                            <a class="nav-link text-light active" aria-current="page" href="{{'/'}}">Home</a>
+                          </li>
+                          <li class="nav-item my-2">
+                            <a class="nav-link text-light active" href="#">About Us</a>
+                          </li>
+                          <li class="nav-item my-2">
+                            <a class="nav-link text-light active" href="#">Contact Us</a>
+                          </li>
+                          <li class="nav-item my-2">
+                            <a class="nav-link text-light active emergency animate_animated animate__heartBeat animate__repeat-3 3" href="#">Emergency</a>
+                          </li>
+                          <li class="nav-item my-2">
+                            <a class="nav-link text-light active emergency" href="#">Book An Appointment</a>
+                          </li>
+                          <li class="nav-item dropdown my-2">
+                            <a class="nav-link dropdown-toggle text-light emergency" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                              Login
+                            </a>
+                            <ul class="dropdown-menu nav-style" aria-labelledby="navbarDropdownMenuLink">
+                          
+                              <li><a class="dropdown-item" href="{{url_for('pat')}}" target="_blank">Patients</a></li>
+                              <li><a class="dropdown-item" href="{{url_for('personnel_login')}}" target="_blank">Medical Personnel</a></li>
+                            </ul>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </nav>
+            </div>
+    </div>
+         <!-- Navbar section ends here -->
+  
+       
+        {% block banner %}
+    
+        {%endblock %}
+      </div>
+      <footer class="container-fluid">
+          <div class="row px-5 ">
+              <div class="col-md-6 d">
+                <a class="" href="#"><img src="/static/icon/medicine.png" width="40px"> Smart Hospital</a>
+                <p>
+                  <i class="fa-brands fa-facebook fa-2xl">
+                    <i class="fa-brands fa-instagram fa-xl mx-2"></i>
+                    <i class="fa-brands fa-linkedin"></i>
+                  </i>
+                </p>
+                
+              </div>
+              <div class="col-md-6 ">
+               
+              </div>
+          </div>
+          <div class="row px-5">
+              <div class="col-md-5">
+                <h1>Get our wellness newsletter.</h1>
+                <p>Filter out the noise and nurture your inbox with health and wellness advice that’s 
+                  inclusive and rooted in medical expertise.</p>
+                  
+            {% set m = get_flashed_messages(with_categories=True) %}
+            {%if m: %}
+            {% for cat,msg in m %}
+                {% if cat == "error" %}
+                <div class="alert alert-danger text-center">{{msg}} </div>
+                {% else %}
+                <div class="alert alert-success text-center">{{msg}} </div>
+                {%endif%}
+            {%endfor %}
+            {%endif%}
+                  <form id="subscribeForm" method="post" action="{{url_for('subscribe')}}">
+                   <input type="hidden" name="csrf_token" value="{{csrf_token()}}" id="">
+                   <input type="email" name="email" id="email" class="form-control">
+            
+                    <button class="btn-danger btn m-3" type="submit">Subscribe</button>
+                </form>
+              </div>
+              <div class="col-md-3">
+                  <a href="" target="_blank" >About Us</a>
+                  <a href="" target="_blank" >Contact Us</a>
+                  <a href="" target="_blank" >Privacy Policy</a>
+                  <a href="" target="_blank" >Health Topics</a>
+              </div>
+              <div class="col-md-4">
+                <a href="" target="_blank" >Medical Affairs</a>
+                <a href="" target="_blank" >Contact Us</a>
+                <a href="" target="_blank" >Privacy Policy</a>
+                <p>&copy; 2023  Smart Hospital. All rights reserved. Our website services,
+                   content, and products are for informational purposes only.  
+                   </p>
+            </div>
+          </div>
+          <div class="row customise">
+            <div class="col-md ">
+              <p style="text-align: center;">&copy; Precious</p>
+            </div>
+          </div>
+        </footer>
+      
+      
+
+  <!-- bootstrap javascript -->
+  <script src="/static/assests/bootstrap/js/bootstrap.bundle.js"></script>
+  <!-- jquery -->
+  <script type="text/javascript" src="/static/scripts/jQuery.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <!-- <script type="text/javascript">
+      $(document).ready(function() {
+          $('#subscribeForm').submit(function(event) {
+              event.preventDefault();
+
+              var formData = $('#subscribeForm').serialize();
+
+              $.ajax({
+                  type: 'POST',
+                  url: '/',
+                  data: formData,
+                  success: function(data) {
+                      $('#email-error').text('');
+                      alert(data.message + ' Email: ' + data.email);
+                  },
+                  error: function(error) {
+                      if (error.responseJSON && error.responseJSON.email) {
+                          $('#email-error').text(error.responseJSON.email[0]);
+                      }
+                  }
+              });
+          });
+      });
+  </script> -->
+  {% block query%}
+  
+  {% endblock %}
+  <!-- main javascript -->
+  <script type="text/javascript" src="/static/scripts/main.js"></script>
+</body>
+</html>

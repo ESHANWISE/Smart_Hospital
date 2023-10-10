@@ -1,0 +1,331 @@
+/* 
+
+font-family: 'Open Sans', sans-serif;
+font-family: 'Poppins', sans-serif; */
+
+*{
+	margin: 0px;
+	padding: 0px;
+	box-sizing: border-box;
+	text-decoration: none;
+	font-family: arial;
+}
+/* div{
+	border: 1px solid green;
+} */
+
+h1,h2,h3{
+	font-family: 'Roboto', sans-serif;
+}
+p{
+	font-family: 'Poppins', sans-serif
+}
+
+/*Styling navbar start*/
+.nav-style{
+	background-color:rgb(0, 20, 50);
+	color: rgba(225, 225, 225, 0.9);
+}
+.nav-style a{
+	color: white;
+}
+.nav-link{
+	margin: 0px 20px !important;
+}
+#nav-list{
+	justify-content: end !important;
+}
+.emergency{
+	border: 1px solid white;
+	background-color: #C3073F;
+	border-radius: 10px;
+	margin: 5px 10px;
+}
+
+/* nabar ends here */
+
+/*Banner section start*/
+.display{
+	background: url("../images/surgery1.jpg");
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position: center;
+	min-height: 600px;
+}
+.overlay{
+	background-color: rgba(0, 0, 100, 0.6);
+	min-height: 600px;
+}
+
+.display1{
+	min-height: 100px;
+	color: rgba(225, 225, 225, 0.8);
+	padding: 100px;
+	padding-right: 40px;
+	margin-top: 100px;
+	width: 100%;
+}
+.readMore{
+	text-decoration: none;
+	color:#C3073F;
+	font-size: 20px;
+}
+.dis1{
+	min-height: 100px;
+	padding-right: 60px;
+	text-align: center;
+}
+.display1 h1{
+	font-size: 40px;
+	padding-right: 30px;
+	border-bottom:5px solid #C3073F;
+}
+.display1 p{
+	padding-top: 20px 0px;
+	padding-bottom: 20px;
+	font-size: 20px;
+}
+/* banner ends here */
+
+/* text on image starts here */
+.ontop{
+	justify-content: center;
+	margin-top: -100px;
+}
+.pre1{
+	text-align: center;
+	font-size: 16px;
+	background-color: rgba(120, 0, 0, 0.8);
+	color: white;
+	border-radius: 10px;
+	margin: 20px;
+	height: 250px;
+	padding: 20px 5px;
+}
+
+/* text on image ends here */
+
+/* banner2 starts here */
+.display2{
+	height: 500px;
+	background-image: url("../images/banner4.jpg");
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	background-size: cover;
+	background-position: top;
+	margin-bottom: 50px;
+	background-color:rgb(0, 20, 50);
+}
+.overlay1{
+	background-color: rgba(0, 0, 80, 0.5);
+}
+
+.display3{
+	height: 500px;
+	background-image: url("../images/banner3.jpg");
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	background-size: cover;
+	background-position: top;
+	margin-bottom: 50px;
+	background-color:rgb(0, 20, 50);
+}
+/* banner2 ends here */
+
+/* icons */
+
+.icon{
+	padding: 10px;
+	text-align: center;
+	margin: 10px;
+	background-color: rgb(0, 20, 50);
+	color: white;
+	border-radius: 50px;
+}
+.a{
+	background-color:rgb(0, 20, 50);
+	color: white;
+}
+.anchor span{
+	display: inline-block;
+	margin: 0px 10px;
+	color: rgb(0, 20, 50);
+	text-decoration: none;
+	font-size: 24px;
+}
+.head{
+	color:rgb(0, 20, 50);
+}
+
+
+/* footer */
+footer{
+	background-color: rgb(0, 20, 50);
+	color: white;
+	margin-top: 30px;
+}
+.fonts{
+	background-color: white;
+}
+footer a{
+	display: inline-block;
+	text-decoration: none;
+	color: white;
+	display: block;
+	margin: 20px;
+}
+footer a:hover{
+	color: #C3073F;
+}
+.customise{
+	background-color: #C3073F;
+}
+.footerinput{
+	margin: 0px;
+	height: 40px;
+	border-radius: 15px;
+	margin: 10px 0px;
+	width: 300px;
+}
+.footerbtn{
+	margin: 0px;
+	height: 40px;
+	border-radius: 15px;
+	width: 100px;
+	background-color: #C3073F;
+	color: white;
+	margin: 13px 0px;
+}
+
+/* media query for small screen */
+@media screen and (max-width:768px){
+	.footer-content{display:none}
+}
+
+/* login page personnel */
+.forlogin{
+	min-height: 500px;
+	background-image: url("../images/surgery-1807541_640.jpg");
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position: top;
+	background-attachment: fixed;
+	margin-bottom: 50px;
+}
+.login{
+	background-color: rgba(0, 0, 80, 0.7);
+	min-height: 500px;
+}
+.login_container{
+	margin: 95px 0px;
+	color: white;
+	min-height: 500px;
+}
+
+/* patients login */
+.forlogin1{
+	min-height: 100px;
+	background-image: url("../images/pat.jpg");
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position: top;
+	background-attachment: fixed;
+	/* margin-bottom: 50px; */
+	
+}
+.login1{
+	background-color: rgba(0, 0, 0, 0.8);
+	min-height: 100px;
+	width: 100%;
+}
+
+.forlogin3{
+	min-height: 500px;
+	background-image: url("../images/suggest.png");
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position: top;
+	background-attachment: fixed;
+}
+/* forms */
+.allForm{
+	display: none;
+}
+
+/*  */
+
+.beg{
+	background-color: transparent;
+}
+
+.formBorder{
+	border: 1px solid white;
+	border-radius: 10px;
+	margin-top: 80px;
+	margin-bottom: 50px;
+}
+
+.secHeight{
+	height: 100px;
+}
+
+/* scrollbar */
+
+  .sect{
+	background-color: rgb(0, 0, 80);
+	overflow: auto;
+	white-space: nowrap;
+	padding: 10px;
+  }
+  h2{
+	color: rgb(0, 0, 80);
+	margin: 30px 0px;
+  }
+  .card-body p{
+	color: rgb(0, 0, 80);
+  }
+
+  /* testimonials */
+  body{
+    background-color:#eee;
+}
+
+.card{
+    
+    border:none;
+}
+
+.user-content p{
+    margin-top:5px;
+    font-size:12px;
+}
+
+
+.ratings i{
+    color:rgb(0, 0, 80);
+}
+
+.sugPad{
+	margin: 100px;
+}
+
+/* dashboards */
+.center {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	width: 50%;
+  }
+  /* mastercard div */
+.mcard{
+	height: 100px;
+	border: 1px solid black;
+	border-radius: 10px;
+	display: inline-block;
+  }
+  .m{
+	margin-right: 50px;
+  }
+  .h{
+	height: 200px;
+  }

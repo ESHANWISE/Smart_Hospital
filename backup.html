@@ -1,0 +1,276 @@
+{% extends 'userdash/prototype.html' %}
+
+
+{% block main %}
+
+{% set m = get_flashed_messages(with_categories=True) %}
+{%if m: %}
+{% for cat,msg in m %}
+    {% if cat == "error" %}
+    <div class="alert alert-danger text-center">{{msg}} </div>
+    {% else %}
+    <div class="alert alert-success text-center">{{msg}} </div>
+    {%endif%}
+{%endfor %}
+{%endif%}
+
+<div class="container-fluid ">
+<div id="feedback"></div>
+    <div class="row mt-3 justify-content-center d-flex">
+       <div class="col-md ">
+        <h2 >Search for Personnels below</h2>
+        
+          <form action="{{url_for('appointment')}}" method="post">
+            <input type="hidden" name="csrf_token" value="{{csrf_token()}}">
+              <div class="row">
+                  
+                  <div class="col-md-4">
+                    <select name="spec" id="spec" class="form-control mt-2">
+                      <option value="">Select specialization</option>
+                      {% for s in spec %}
+                      <option value="{{s.spec_id}}">
+                          {{s.spec_name}}
+                      </option>
+                      {%endfor%}
+                    </select>
+                  </div>
+                  <div class="col-md-4">
+                    <select  name="state" id="state" class=" form-control mt-2">
+                      <option value="">Select state</option>
+                      {% for s in state %}
+                      <option value="{{s.state_id}}">
+                          {{s.state_name}}
+                      </option>
+                      {%endfor%}
+                    </select>
+                  </div>
+
+                  <div id="mylga" class="col-md-4"></div>
+                  <div><button type="submit"  id="chk" class="btn btn-primary my-3">Search</button></div>
+              </div>
+          </form>
+       </div>
+
+      </div>
+
+    <!-- Search results -->
+
+    
+    <div class="card mb-4 ">
+        <div class="card-header">
+            <i class="fas fa-table me-1"></i>
+            Search Results
+        </div>
+        <div class="card-body">
+            <div class="col-md">
+                <div class="formbold-main-wrapper" id="display">
+                  {% if query|count > 0 %}
+                  <table class="table table-striped">
+                      <tr>
+                        <th>S/N</th>
+                        <th>Fullnme</th>
+                        <th>Email</th>
+                        <th>specialization</th>
+                        <th>state</th>
+                        <th>Lga</th>
+                        <th>Reviews</th>
+                        <th>Picture</th>
+                        <th>Booking</th>
+                      </tr>
+                      {% for i in query %}
+                      <tr>
+                        <td>{{loop.index}}</td>
+                        <td>{{i.per_lastname}} {{i.per_firstname}}</td>
+                        <td>{{i.per_email}}</td>
+                        <td>{{i.per_spec.spec_name}}</td>
+                        <td>{{i.per_state.state_name}}</td>
+                        <td>{{i.per_lga}}</td>
+                        {% if i.per_rev | count > 0%}
+                        <td><a href="">{{i.per_rev|count}} Review(s)</a></td>
+                        {%else%}
+                        <td><a href="">{{i.per_rev|count}} Review(s)</a></td>
+                        {%endif%}
+                        <td><img src="/static/uploads/{{i.per_profile_picture}}" alt="" width="120" height="120"></td>
+                        <td><a class="btn btn-primary" data-bs-toggle="modal" onclick="openModal('{{ i.per_id }}')" href="#exampleModalToggle" role="button">View <Details></Details></a></td>
+                      </tr>
+                      {%endfor%}
+                  </table>
+                  
+                  </div>
+                  {%endif%}
+            </div>
+        </div>
+    </div>
+ </div>
+
+
+ <!-- Modals start heere -->
+
+ <div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalToggleLabel">Modal 1</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" id="modalBody">
+        
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-danger" onclick="openBookAppointmentModal()" data-bs-target="#exampleModalToggle2" data-user='34' data-bs-toggle="modal" data-bs-dismiss="modal">Book Appointment</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header" id="head">
+        <h3 class="modal-title" id="exampleModalToggleLabel2">Appointment Form</h3>
+        
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form action="" method="post" id="appointmentForm" >
+        <input type="hidden" name="csrf_token" value="{{csrf_token()}}" >
+      
+      {% if query %}
+        <input type="hidden" name="appid" id="patid" value="{{query[0]}}">
+       {%endif%}
+        
+      
+        <div class="modal-body">
+          <div><label for="date">Date</label></div>
+          <div class="col-md my-3 mx-3"><input type="date" name="date" id="date" value="date" class="form-control"></div>
+          <div><label for="time">Time</label></div>
+          <div class="col-md my-3 mx-3"><input type="time" name="time" id="time" value="time" class="form-control"></div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-primary"  id="btnapp"  data-bs-dismiss="modal">Submit</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+{%endblock%}
+
+
+
+{% block query %}
+
+         
+<script>
+
+
+function openModal(userId) {
+  const userDetailsEndpoint = `/view_per/${userId}`;
+  
+  fetch(userDetailsEndpoint)
+    .then(response => response.json())
+    .then(userDetails => {
+      
+      const modalBody = document.getElementById('modalBody');
+      modalBody.innerHTML = `<p id="u">User ID: ${userId}</p>
+                              <p>Name: ${userDetails.name}</p>
+                              <p>Email: ${userDetails.email}</p>
+                              <p>Profile: ${userDetails.pix}`;
+      $(this).attr("data-user",userId)
+      // var pat = document.getElementById("patid").value()="${userId}";
+
+      $('#userDetailsModal').modal('show');
+    })
+    .catch(error => console.error('Error fetching user details:', error));
+}
+
+
+
+// Function to open the book appointment modal
+function openBookAppointmentModal(userId) {
+  
+  $('#bookAppointmentModal').modal('show');
+  
+}
+
+
+ 
+
+//triggered when modal is about to be shown
+$('#bookAppointmentModal').on('show.bs.modal', function(e) {
+    // get data-id attribute of the clicked element
+    // var personeelid = $(e.relatedTarget).data('user');
+    // alert(personeelid);
+    // //make an ajax call to receive an array based on userid, that is you can now pass the userid to an ajax. let's say the ajax returns t     
+
+    // $(e.currentTarget).find('.modal-body').html(''); //displays t inside the div with class modal-body
+    // $(e.currentTarget).find('.modal-title').html("Details for User"+ personeelid); //displays this in the div with class modal-title
+
+});
+
+// Function to submit the appointment form
+function submitAppointmentForm(event) {
+  event.preventDefault();
+  const appointmentDate = $('#date').val();
+  const perId = $('#patid').val();
+  const appointmentTime = $("#time").val();
+  var csrf = "{{csrf_token()}}"
+  var data2send = {"date":appointmentDate,"csrf_token":csrf,"time":appointmentTime,"perid":perId}
+
+  $.post("/book_app/",data2send,function(serverRsp){
+          $('#feedback').append(serverRsp).addClass("alert alert-info")
+          
+        })
+  // Assume a function `submitAppointmentToServer` to handle the server-side submission
+  // submitAppointmentToServer(userId, appointmentDate,appointmentTime);
+}
+
+// Function to handle server-side submission of appointment
+// function submitAppointmentToServer(userId, appointmentDate,appointmentTime) {
+  // Implement your logic to submit the appointment to the server here
+  // console.log(`Submitting appointment for user ${userId} on ${appointmentDate} and ${appointmentTime}`)};
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    $(document).ready(function(){
+          $("#state").change(function(){
+              var selected_state = $(this).val()
+              var url = "/lga/"+ selected_state
+              $('#mylga').load(url)
+              // $('#mlga').change(function(){
+              //   $("#chk").prop("disabled",false)
+              // })
+          })
+
+
+          $(".ok").click(function(){
+            $("#show").css("display","block")
+          })
+
+
+          // Review submission
+          $('#btn').click(function(event){
+          event.preventDefault();
+          // make ajax call using the $.post
+          var content = $('#txt').val()
+          var csrf = "{{csrf_token()}}"
+          var personnelid = $('#appid').val()
+          var data2send = {"content":content,"csrf_token":csrf,"personnel":personnelid}
+          
+        $.post("/review/",data2send,function(serverRsp){
+          $('#feedback').append(serverRsp).addClass("alert alert-info")
+          
+        })
+      
+      })
+      })
+  
+  
+  </script>
+
+{%endblock%}

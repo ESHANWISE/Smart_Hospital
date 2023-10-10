@@ -1,0 +1,206 @@
+{% extends "user/prototype.html" %}
+
+{% block title%} 
+  Home Page
+{% endblock %}
+
+    {% block banner %}
+
+    {% set m = get_flashed_messages(with_categories=True) %}
+    {%if m: %}
+    {% for cat,msg in m %}
+        {% if cat == "error" %}
+        <div class="alert alert-danger text-center">{{msg}} </div>
+        {% else %}
+        <div class="alert alert-success text-center">{{msg}} </div>
+        {%endif%}
+    {%endfor %}
+    {%endif%}
+   
+        
+        <!-- banner image/overlay/image-text starts-->
+        <div class="row display">
+          <div class="overlay">
+            <div class="row">
+              <div class="col-md-6 display1 ">
+               
+                  <div class="col-md-8 dis1">
+                      <h1>Who We Are</h1>
+                      <p>Smart Hospital is a multi-specialist hospital.
+                        We believe that receiving exceptional healthcare should be the
+                         norm for every Nigerian citizen, and we’ve set up quality Hospitals dedicated to bringing you the best care.
+                     </p>
+                     <!-- <span><a class="readMore" href="#">Read More</span> -->
+                  </div>
+              </div>
+            </div>
+          </div>
+      </div>
+      <!-- banner image/overlay/image-text ends-->
+
+      <!-- div overlap starts here -->
+
+      <div class="row ontop">
+  
+          <div class="col-md-3 pre1">
+            <h3>ORTHOPAEDICS</h3>
+            <p>
+              Our Department of Orthopedic Surgery diagnoses and treats musculoskeletal 
+              illnesses and injuries, including the bones and joints of the arms, legs, 
+              and spine, as well as nerves, ligaments, tendons, and muscles.</p>
+          </div>
+          <div class="col-md-3 pre1">
+            <h3>OBSTETRICS AND GYNAECOLOGY</h3>
+              <p>
+                Our O&G department takes pride in delivering excellent patient-centered 
+                treatment for women with a wide range of obstetrics, gynaecology, and other women's health problems.
+              </p>
+          </div>
+          <div class="col-md-3 pre1">
+            <h3>CARDIOLOGY</h3>
+               <p>
+                Our cardiologists provide a comprehensive variety of inpatient and
+                 outpatient cardiovascular care to patients with known or suspected heart and blood vessel disorders.
+               </p>
+           </div>
+      </div>
+
+      <!-- div overlap ends here -->
+   
+      <!-- second banner starts here -->
+      <div class="row display2 mt-2">
+        <div class="col-md overlay1">
+        </div>
+      </div>
+      <!-- second banner ends here -->
+
+      <!-- popular searchs starts-->
+      <h2 class=" text-center">Our Top Specialties</h2>
+
+          
+      <div class="row justify-content-center display3">
+       
+        <div class="icon col-md-2 ">
+          <img src="/static/images/cardiac-icon.png" class="rounded-circle " alt="" width="128">
+          <p class="mt-2">Cardiac Science</p>
+        </div>
+        <div class=" col-md-2 icon">
+          <img src="/static/images/ivf-icon.png" alt="" width="128">
+          <p class="mt-2">IVF</p>
+        </div>
+        <div class="icon col-md-2 ">
+          <img src="/static/images/brain-icon.png" alt="" width="128">
+          <p class="mt-2">Neurosciences</p>
+        </div>
+        <div class="icon col-md-2 ">
+          <img src="/static/images/cancer.png" class="rounded-circle" alt="" width="128">
+          <p class="mt-2">Cancer Oncology</p>
+        </div>
+        <div class="icon col-md-2 col-sm-12">
+          <img src="/static/images/kidney-icon.png" alt="" width="128">
+          <p class="mt-2">Kidney Transplant</p>
+        </div>
+        <div class=" col-md-2 icon">
+          <img src="/static/images/liver-icon.png" alt="">
+          <p class="mt-2">Liver Transplant and <br> Briliary Science</p>
+        </div>
+        <div class="icon col-md-2 ">
+          <img src="/static/images/Orthopedics-icon.png" class="rounded-circle" alt="" width="128">
+          <p class="mt-2">Orthopedics</p>
+        </div>
+        <div class="icon col-md-2 col-sm-12">
+          <img src="/static/images/aesthetic-icon.png" alt="" width="128">
+          <p class="mt-2">Aesthetic and <br> Reconstructive surgery</p>
+        </div>
+    </div>
+
+
+      <!-- second card after the second banner image -->
+
+      <div class="row justify-content-center mt-5">
+          <div class="col-md-3 mt-5">
+            <div class="card" >
+              <img src="/static/images/card2.jpg" class="card-img-top" alt="...">
+              <div class="card-body">
+                <p>We offer advanced treatment for blood cancer. 
+                  Our holistic integrated care includes opinions of best cancer 
+                  specialist doctors who specialize in Surgical Oncology, 
+                  Radiation Oncology, and Medical Oncology. We are one of the leading cancer hospitals in the world.</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 mt-5">
+            <div class="card" >
+              <img src="/static/images/card3.jpg" class="card-img-top" alt="...">
+              <div class="card-body">
+                <p>For treatment of several kinds of neurological disorders, 
+                  we are equipped with the best neurosurgeons in the world. 
+                  Our team consists of best neurologists in India who specialize in offering
+                   advanced procedures for spinal treatment. Our hospitals have an advanced brain tumor centre, 
+                   where the renowned brain specialists in the world offer treatment for several kinds of neurological disorders.</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 mt-5">
+            <div class="card" >
+              <img src="/static/images/Lab.jpg" class="card-img-top" alt="...">
+              <div class="card-body">
+                <p>We are the best cardiac Hospital in world as we are equipped with advanced Cath Labs 
+                  and several other cardiac care technologies. Our institute has renowned Cardiologists 
+                  in the world who specialize in offering advanced cardiac treatments. Being one the best cardiology 
+                  hospitals in the world, our hospital specializes in performing complex heart surgeries.</p>
+              </div>
+            </div>
+          </div>
+      </div>
+      <!-- second card after the second banner image ends here -->
+
+      <!-- Testimonial -->
+
+      <div class="container mt-5 mb-5">
+        <h2 class="text-center">Reviews</h2>
+        <div class="row g-2">
+          {%for c in revs%}
+            <div class="col-md-4">
+                <div class="card p-3 text-center px-4">
+                    
+                    <div class="user-image">
+                        
+                <img src="/static/uploads/{{c.rev_deets.profile_picture}}" class="rounded-circle" width="40"
+                        >
+                        
+                    </div>
+                    
+                    <div class="user-content">
+                        
+                        <h5 class="mb-0">{{c.rev_deets.pat_lastname}} {{c.rev_deets.pat_firstname}} (Patient)</h5>
+                        <hr>
+                        <span class="fs-3 text">{{c.rev.per_lastname}} {{c.rev.per_firstname}} (Doctor)</span>
+                        <p class="fs-5 text">{{c.message}}</p>
+                        
+                    </div>
+                    
+                    <div class="ratings">
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+          {%endfor%}
+            
+            
+            
+        </div>
+        
+    </div>
+              
+           
+    {% endblock %}
+
+
+
+

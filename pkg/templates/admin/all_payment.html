@@ -1,0 +1,122 @@
+
+{% extends 'admin/admin_prototype.html'%}
+
+
+{% block content %}
+
+        <main>
+
+            {% set m = get_flashed_messages(with_categories=True) %}
+{%if m: %}
+{% for cat,msg in m %}
+    {% if cat == "error" %}
+    <div class="alert alert-danger text-center">{{msg}} </div>
+    {% else %}
+    <div class="alert alert-success text-center">{{msg}} </div>
+    {%endif%}
+{%endfor %}
+{%endif%}
+            <div class="container-fluid px-4">
+                <h1 class="mt-4">Dashboard</h1>
+                <ol class="breadcrumb mb-4">
+                    <li class="breadcrumb-item active">Dashboard</li>
+                </ol>
+                <div class="row">
+                    <div class="col-xl-3 col-md-6">
+                        <div class="card bg-primary text-white mb-4">
+                            <div class="card-body">Patients</div>
+                            <div class="card-footer d-flex align-items-center justify-content-between">
+                                <a class="small text-white stretched-link" href="{{url_for('allPatients')}}">View Details</a>
+                                <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-md-6">
+                        <div class="card bg-warning text-white mb-4">
+                            <div class="card-body">Personnels</div>
+                            <div class="card-footer d-flex align-items-center justify-content-between">
+                                <a class="small text-white stretched-link" href="{{url_for('allPersonnels')}}">View Details</a>
+                                <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-md-6">
+                        <div class="card bg-success text-white mb-4">
+                            <div class="card-body">All Financial Transactions</div>
+                            <div class="card-footer d-flex align-items-center justify-content-between">
+                                <a class="small text-white stretched-link" href="{{url_for('all_payment')}}">View Details</a>
+                                <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-md-6">
+                        <div class="card bg-danger text-white mb-4">
+                            <div class="card-body">Payouts</div>
+                            <div class="card-footer d-flex align-items-center justify-content-between">
+                                <a class="small text-white stretched-link" href="#">View Details</a>
+                                <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card mb-4">
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h3>All Payments
+                        </div>
+                        <div class="card-body">
+                            <div class="col-md">
+                             
+                                <table class="table table-responsive table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>S/N</th>
+                                            <th>Patients Fullname</th>
+                                            <th>Patients Email</th>
+                                            <th>Amount</th>
+                                            <th>Date</th>
+                                            <th>Personnel Fullname</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for f in fin %}
+                                        <tr>
+                                            <td>{{loop.index}}</td>
+                                            <td>  {{f.fin_fullname}} </td>
+                                            <td> {{f.fin_email}} </td>
+                                            <td>{{f.fin_amount}}</td>
+                                            <td> {{f.app_date_time}} </td>
+                                            <td>{{f.fins.per_lastname}} {{f.fins.per_firstname}}</td>
+                                        </tr>
+                                        {%endfor%}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+{%endblock%}
+
+{%block query%}
+<!-- <script>
+    function toggleAccess(userId) {
+        // Send an AJAX request to toggle the user's access
+        $.ajax({
+            type: 'GET',
+            url: '/admin/toggle_access/' + userId,
+            success: function(response) {
+                
+                console.log('Toggle access response:', response);
+                // Refresh the page to reflect the updated access
+                location.reload();
+            },
+            error: function(error) {
+                console.error('Error toggling access:', error);
+            }
+        });
+    }
+</script> -->
+{%endblock%}

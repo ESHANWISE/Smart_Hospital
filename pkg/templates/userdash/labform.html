@@ -1,0 +1,51 @@
+{% extends 'userdash/prototype.html' %}
+
+
+{% block main %}
+
+
+{% set m = get_flashed_messages(with_categories=True) %}
+{%if m: %}
+{% for cat,msg in m %}
+    {% if cat == "error" %}
+    <div class="alert alert-danger text-center">{{msg}} </div>
+    {% else %}
+    <div class="alert alert-success text-center">{{msg}} </div>
+    {%endif%}
+{%endfor %}
+{%endif%}
+
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h2 class="text-danger">Please fill your Lab record form correctly</h2>
+            <form action="{{url_for('lab')}}" method="post" enctype="multipart/form-data">
+                <input type="hidden" name="csrf_token" value="{{csrf_token()}}">
+                <div class="mb-3">
+                  <label for="formFile" class="form-label">Upload Lab Result Here</label>
+                  <input class="form-control" type="file" name="file" id="formFile">
+                  <span class="text-danger">Only jpeg,jpg,and png allowed</span>
+                </div>
+                <div class="form-floating mt-3">
+                    <textarea class="form-control" name="labtest" placeholder="Leave a comment here" id="floatingTextarea" style="height: 100px"></textarea>
+                    <label for="floatingTextarea" class="">Lab Test</label>
+                </div>
+                <div class="form-floating mt-3">
+                    <textarea class="form-control" name="extras" placeholder="Leave a comment here" id="floatingTextarea" style="height: 100px"></textarea>
+                    <label for="floatingTextarea" class="">extras</label>
+                </div>
+                <div><button class="btn btn-danger my-3">Submit</button></div>
+            </form>
+        </div>
+        <div id="lab"></div>
+    </div>
+</div>
+
+{%endblock%}
+
+
+
+{% block query %}
+
+{%endblock%}

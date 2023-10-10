@@ -1,0 +1,17 @@
+patients= db.session.query(Registration).get()
+    f = CreateAccount()
+    if request.method == "GET":
+        return render_template('user/pat.html',f=f)
+    else:
+        f.validate_on_submit()
+        email = request.form.get("email")
+        pwd = request.form.get("pwd")
+        if email in patients:
+            location = patients.patients_email.index(email)
+            if pwd == patients.patients_pwd[location]:
+                session["user"]= email
+                return redirect('/dashboard')
+            else:
+                return render_template("user/pat.html",f=f)
+        else:
+            flash("Wrong details")
